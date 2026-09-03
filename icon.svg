@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  <!-- Bible Book Shape -->
+  <path d="M 110 370 C 180 340, 240 360, 256 370 C 272 360, 332 340, 402 370 L 402 160 C 332 130, 272 150, 256 160 C 240 150, 180 130, 110 160 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="12" />
+  <!-- Gold Cross / Bookmark on Left -->
+  <path d="M 183 175 L 183 315 M 160 215 L 206 215" stroke="url(#gold)" stroke-width="14" stroke-linecap="round" />
+  <!-- Question Mark on Right -->
+  <path d="M 305 200 C 305 175, 350 175, 350 210 C 350 235, 328 245, 328 268" fill="none" stroke="#38bdf8" stroke-width="16" stroke-linecap="round" />
+  <circle cx="328" cy="305" r="9" fill="#38bdf8" />
+  <!-- Ribbon -->
+  <path d="M 256 160 L 256 400 L 246 385 L 236 400 L 236 160 Z" fill="#ef4444" />
+</svg>

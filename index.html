@@ -2,8 +2,18 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Tebak Tokoh Alkitab - Rebus Puzzle Kelas 6</title>
+  
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tebak Alkitab">
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #13172c 0%, #0d122b 50%, #080b1a 100%);
@@ -700,6 +710,123 @@
       height: 100%;
       pointer-events: none;
       z-index: 99;
+    }
+
+    /* Mobile Phone Responsive (HP) */
+    @media (max-width: 768px) {
+      header {
+        padding: 8px 14px;
+      }
+      .app-title {
+        font-size: 1.05rem;
+      }
+      .logo-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+      }
+      .header-actions .btn-header span:not(#sound-icon) {
+        display: none;
+      }
+      .btn-header {
+        padding: 6px 10px;
+      }
+      main {
+        padding: 8px 10px 14px;
+      }
+      .hud-bar {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .question-nav {
+        justify-content: center;
+      }
+      .nav-pill {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+      }
+      .timer-container {
+        justify-self: center;
+        margin: 0 auto;
+        padding: 4px 14px;
+      }
+      .timer-display {
+        font-size: 1.4rem;
+      }
+      .teams-container {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .team-badge {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+      }
+      .team-score {
+        font-size: 1.1rem;
+      }
+      .game-arena {
+        padding: 14px 12px;
+        border-radius: 18px;
+      }
+      .level-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .instruction-badge {
+        font-size: 0.85rem;
+      }
+      .puzzle-stage {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .puzzle-card {
+        padding: 12px 14px;
+        border-radius: 16px;
+      }
+      .puzzle-svg-wrap {
+        width: 190px;
+        height: 155px;
+      }
+      .modifier-badge {
+        font-size: 1.1rem;
+        padding: 4px 12px;
+      }
+      .puzzle-operator {
+        font-size: 2rem;
+      }
+      .letter-box {
+        width: 38px;
+        height: 42px;
+        font-size: 1.35rem;
+        border-radius: 8px;
+      }
+      .hint-container, .answer-container {
+        padding: 10px 14px;
+      }
+      .hint-text {
+        font-size: 1.05rem;
+      }
+      .answer-name {
+        font-size: 1.8rem;
+      }
+      .answer-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .answer-right {
+        text-align: center;
+      }
+      .controls-bar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+      .btn-action {
+        padding: 8px 14px;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -1880,6 +2007,15 @@
       document.addEventListener('DOMContentLoaded', startApp);
     } else {
       startApp();
+    }
+
+    // Register PWA Service Worker for Offline Play
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.log('ServiceWorker registration skipped:', err);
+        });
+      });
     }
   </script>
 </body>
