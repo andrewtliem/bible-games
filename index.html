@@ -235,8 +235,8 @@
     .team-badge {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 6px 14px;
+      border-radius: 14px;
+      padding: 8px 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -248,44 +248,76 @@
     }
 
     .team-dot {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
     }
 
     .team-name {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
     }
 
     .team-score {
-      font-size: 1.35rem;
-      font-weight: 800;
+      font-size: 1.5rem;
+      font-weight: 900;
       color: #fff;
+      min-width: 34px;
+      text-align: center;
     }
 
     .team-btn-group {
       display: flex;
-      gap: 4px;
+      gap: 6px;
     }
 
     .btn-score {
-      background: rgba(255, 255, 255, 0.12);
       border: none;
       color: #fff;
-      font-weight: 700;
-      font-size: 0.8rem;
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      min-width: 52px;
+      height: 42px;
+      padding: 0 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
     }
 
-    .btn-score:hover {
-      background: rgba(255, 255, 255, 0.3);
+    .btn-score-plus {
+      background: linear-gradient(135deg, #10b981, #059669);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-score-plus:hover {
+      background: linear-gradient(135deg, #34d399, #10b981);
+    }
+
+    .btn-score-plus:active {
+      transform: scale(0.92);
+      background: #047857;
+    }
+
+    .btn-score-minus {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .btn-score-minus:hover {
+      background: rgba(239, 68, 68, 0.4);
+      color: #fff;
+    }
+
+    .btn-score-minus:active {
+      transform: scale(0.92);
+      background: rgba(239, 68, 68, 0.6);
     }
 
     /* Game Stage Arena */
@@ -756,13 +788,24 @@
       .teams-container {
         justify-content: center;
         flex-wrap: wrap;
+        gap: 8px;
       }
       .team-badge {
-        padding: 4px 8px;
-        font-size: 0.8rem;
+        padding: 6px 10px;
+        gap: 8px;
+        border-radius: 12px;
+      }
+      .team-name {
+        font-size: 0.9rem;
       }
       .team-score {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
+      }
+      .btn-score {
+        min-width: 44px;
+        height: 38px;
+        font-size: 0.85rem;
+        border-radius: 8px;
       }
       .game-arena {
         padding: 14px 12px;
@@ -876,8 +919,8 @@
           <span class="team-name" onclick="renameTeam(0)">Regu 1</span>
           <span class="team-score" id="score-team-0">0</span>
           <div class="team-btn-group">
-            <button class="btn-score" onclick="modifyScore(0, 100)">+100</button>
-            <button class="btn-score" onclick="modifyScore(0, -50)">-50</button>
+            <button class="btn-score btn-score-plus" onclick="modifyScore(0, 100)">+100</button>
+            <button class="btn-score btn-score-minus" onclick="modifyScore(0, -50)">-50</button>
           </div>
         </div>
 
@@ -886,8 +929,8 @@
           <span class="team-name" onclick="renameTeam(1)">Regu 2</span>
           <span class="team-score" id="score-team-1">0</span>
           <div class="team-btn-group">
-            <button class="btn-score" onclick="modifyScore(1, 100)">+100</button>
-            <button class="btn-score" onclick="modifyScore(1, -50)">-50</button>
+            <button class="btn-score btn-score-plus" onclick="modifyScore(1, 100)">+100</button>
+            <button class="btn-score btn-score-minus" onclick="modifyScore(1, -50)">-50</button>
           </div>
         </div>
 
@@ -896,8 +939,8 @@
           <span class="team-name" onclick="renameTeam(2)">Regu 3</span>
           <span class="team-score" id="score-team-2">0</span>
           <div class="team-btn-group">
-            <button class="btn-score" onclick="modifyScore(2, 100)">+100</button>
-            <button class="btn-score" onclick="modifyScore(2, -50)">-50</button>
+            <button class="btn-score btn-score-plus" onclick="modifyScore(2, 100)">+100</button>
+            <button class="btn-score btn-score-minus" onclick="modifyScore(2, -50)">-50</button>
           </div>
         </div>
       </div>
