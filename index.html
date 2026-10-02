@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Tebak Tokoh Alkitab - Rebus Puzzle Kelas 6</title>
-  
+
   <!-- PWA & Mobile Web App Meta Tags -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -26,9 +26,8 @@
       --success: #10b981;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --team-a: #ec4899;
-      --team-b: #3b82f6;
-      --team-c: #10b981;
+      /* Tinggi maksimum gambar: sisa layar setelah header, navigasi & badge */
+      --ph1: clamp(190px, calc(100vh - 345px), 560px);
     }
 
     * {
@@ -53,7 +52,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 28px;
+      padding: 10px 28px;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--card-border);
@@ -115,40 +114,41 @@
     /* Main Stage */
     main {
       flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      max-width: 1440px;
+      max-width: 1600px;
       width: 100%;
       margin: 0 auto;
-      padding: 16px 28px 24px;
+      padding: 12px 28px 18px;
       position: relative;
     }
 
-    /* Top HUD */
+    /* Top HUD: Navigasi soal + Timer */
     .hud-bar {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .question-nav {
+      flex: 1;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       align-items: center;
     }
 
     .nav-pill {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -174,7 +174,11 @@
       color: var(--success);
     }
 
-    /* Center Timer */
+    .nav-pill.active.solved {
+      color: #0f172a;
+    }
+
+    /* Timer */
     .timer-container {
       display: flex;
       align-items: center;
@@ -225,134 +229,60 @@
       color: var(--primary);
     }
 
-    /* Teams Score Bar */
-    .teams-container {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-    }
-
-    .team-badge {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: transform 0.2s;
-    }
-
-    .team-badge:hover {
-      transform: translateY(-2px);
-    }
-
-    .team-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-    }
-
-    .team-name {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .team-score {
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: #fff;
-      min-width: 34px;
-      text-align: center;
-    }
-
-    .team-btn-group {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-score {
-      border: none;
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.95rem;
-      min-width: 52px;
-      height: 42px;
-      padding: 0 8px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-      touch-action: manipulation;
-    }
-
-    .btn-score-plus {
-      background: linear-gradient(135deg, #10b981, #059669);
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
-    }
-
-    .btn-score-plus:hover {
-      background: linear-gradient(135deg, #34d399, #10b981);
-    }
-
-    .btn-score-plus:active {
-      transform: scale(0.92);
-      background: #047857;
-    }
-
-    .btn-score-minus {
-      background: rgba(239, 68, 68, 0.25);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
-    }
-
-    .btn-score-minus:hover {
-      background: rgba(239, 68, 68, 0.4);
-      color: #fff;
-    }
-
-    .btn-score-minus:active {
-      transform: scale(0.92);
-      background: rgba(239, 68, 68, 0.6);
-    }
-
-    /* Game Stage Arena */
+    /* Game Arena: gambar besar (kiri) + panel jawaban (kanan) */
     .game-arena {
       flex: 1;
-      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.95) 100%);
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(320px, 28%, 420px);
+      gap: 24px;
+      background: radial-gradient(circle at 35% 50%, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.95) 100%);
       border: 2px solid var(--card-border);
       border-radius: 24px;
-      padding: 22px 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
+      padding: 18px 24px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       position: relative;
       overflow: hidden;
     }
 
-    /* Level Title Banner - NO SPOILERS! */
-    .level-header {
-      width: 100%;
+    .stage-col {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 12px;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
     }
 
-    .level-num-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--primary);
+    .side-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
+      padding-left: 22px;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .side-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Saat jawaban dibuka, kisah lengkap menggantikan clue */
+    .side-col.answered .hint-container {
+      display: none;
+    }
+
+    /* Level Title Banner - NO SPOILERS! */
+    .level-header {
       display: flex;
       align-items: center;
-      gap: 12px;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
     }
 
     .level-tag {
@@ -366,46 +296,74 @@
       letter-spacing: 0.5px;
     }
 
+    .level-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
     .instruction-badge {
-      font-size: 1.1rem;
+      margin-left: auto;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--text-muted);
     }
 
-    /* Rebus Puzzle Visual Box */
+    /* Rebus Puzzle Visual Stage */
     .puzzle-stage {
       flex: 1;
+      min-height: 0;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 28px;
-      padding: 10px 0;
+      gap: 18px;
+      padding: 12px 0 4px;
     }
 
     .puzzle-card {
+      /* Lebar kartu sebanding dengan rasio gambarnya, jadi semua gambar setinggi sama */
+      flex: var(--ar, 1.4) 1 0;
+      min-width: 0;
+      max-width: calc(var(--ph1) * var(--ar, 1.4) + 44px);
       background: rgba(255, 255, 255, 0.04);
       border: 2px solid rgba(255, 255, 255, 0.16);
-      border-radius: 20px;
-      padding: 18px 24px;
+      border-radius: 22px;
+      padding: 16px 20px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
       position: relative;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
 
-    .puzzle-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.3);
+    .puzzle-card:nth-child(3) { animation-delay: 0.15s; }
+    .puzzle-card:nth-child(5) { animation-delay: 0.3s; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.8); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .puzzle-stage.celebrate .puzzle-card {
+      border-color: var(--success);
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.45);
+      animation: celebrate 0.9s ease both;
+    }
+
+    @keyframes celebrate {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.06) rotate(-2deg); }
+      50% { transform: scale(1.06) rotate(2deg); }
+      75% { transform: scale(1.03) rotate(-1deg); }
+      100% { transform: scale(1) rotate(0deg); }
     }
 
     .puzzle-svg-wrap {
-      width: 270px;
-      height: 220px;
-      max-width: 100%;
+      width: 100%;
+      aspect-ratio: var(--ar, 1.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -416,44 +374,229 @@
       display: block;
       width: 100%;
       height: 100%;
-      max-width: 100%;
-      max-height: 100%;
       overflow: visible;
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
     }
 
-    /* Minimalist Modifier Badge (NO object names spoiled!) */
+    /* Badge operasi huruf (tanpa menyebut nama benda) */
     .modifier-badge {
       margin-top: 12px;
       background: #0f172a;
-      border: 2px solid #38bdf8;
-      border-radius: 12px;
-      padding: 6px 18px;
-      font-size: 1.35rem;
+      border: 3px solid #38bdf8;
+      border-radius: 16px;
+      padding: 4px 22px;
+      font-size: clamp(2rem, 5vh, 3.2rem);
+      line-height: 1.25;
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       color: #ffffff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 8px;
+      animation: badgeIn 0.6s 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
 
-    .modifier-badge.strike {
-      border-color: #f43f5e;
-      color: #f43f5e;
+    @keyframes badgeIn {
+      from { opacity: 0; transform: scale(0.4); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    .modifier-badge.replace {
-      border-color: #38bdf8;
-    }
+    .b-del { color: #f43f5e; text-decoration: line-through; text-decoration-thickness: 0.12em; }
+    .b-add { color: #4ade80; }
+    .b-arrow { color: #38bdf8; }
+    .b-x { color: #f43f5e; }
+    .b-dot { color: #64748b; }
+    .b-note { font-size: 0.45em; color: #94a3b8; letter-spacing: 0; font-weight: 700; }
 
     .puzzle-operator {
-      font-size: 3.2rem;
+      flex: none;
+      font-size: 3.4rem;
       font-weight: 900;
       color: var(--primary);
       text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+      animation: opIn 0.5s 0.1s both, opPulse 1.4s 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes opIn {
+      from { opacity: 0; transform: scale(0) rotate(-180deg); }
+      to { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes opPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
+
+    /* ==========================================================
+       ANIMASI GAMBAR SVG
+       Kelas a-* dipasang pada elemen di dalam SVG (tanpa atribut transform).
+       --d = durasi, --a = sudut goyang, --y = jarak naik/turun, --s = skala.
+       .vb + style transform-origin:Xpx Ypx = titik putar dalam koordinat SVG.
+       ========================================================== */
+    .puzzle-svg-wrap [class^="a-"],
+    .puzzle-svg-wrap [class*=" a-"] {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .puzzle-svg-wrap .vb { transform-box: view-box; }
+    .puzzle-svg-wrap .ob { transform-origin: 50% 100%; }
+
+    .a-bob { animation: bob var(--d, 2.4s) ease-in-out infinite alternate; }
+    .a-shadow { animation: shadowPulse var(--d, 2.4s) ease-in-out infinite alternate; }
+    .a-rock { animation: rock var(--d, 2s) ease-in-out infinite alternate; }
+    .a-pulse { animation: pulseS var(--d, 1.6s) ease-in-out infinite alternate; }
+    .a-spin { animation: spin var(--d, 8s) linear infinite; }
+    .a-twinkle { animation: twinkle var(--d, 1.8s) ease-in-out infinite; }
+    .a-fall { animation: fall var(--d, 1.4s) linear infinite; }
+    .a-rise { animation: rise var(--d, 2.4s) ease-out infinite; }
+    .a-flicker { animation: flicker var(--d, 1.2s) linear infinite; }
+    .a-hop { animation: hop var(--d, 1.8s) ease-in-out infinite; }
+    .a-hopshadow { animation: hopShadow var(--d, 1.8s) ease-in-out infinite; }
+    .a-blink { animation: blink var(--d, 4s) linear infinite; }
+    .a-draw { stroke-dasharray: var(--len, 400); animation: draw var(--d, 2.4s) ease-in-out infinite alternate; }
+    .a-flow { stroke-dasharray: 14 300; animation: flow var(--d, 1.4s) linear infinite; }
+    .a-wave { animation: wave var(--d, 2.5s) linear infinite; }
+    .a-recoil { animation: recoil var(--d, 3s) ease-out infinite; }
+    .a-puff { animation: puff var(--d, 3s) ease-out infinite; }
+    .a-flash { animation: flash var(--d, 3s) ease-out infinite; }
+    .a-tap { animation: tap var(--d, 1.4s) ease-in-out infinite; }
+    .a-impact { animation: impact var(--d, 1.4s) ease-out infinite; }
+    .a-hammer { animation: hammer var(--d, 1.6s) ease-in-out infinite; }
+    .a-squeeze { animation: squeeze var(--d, 1.6s) ease-in-out infinite; }
+    .a-arrow { animation: arrowFly var(--d, 3s) ease-out infinite; }
+    .a-target { animation: targetHit var(--d, 3s) linear infinite; }
+    .a-shuttle { animation: shuttle var(--d, 1.8s) ease-in-out infinite; }
+    .a-flyabout { animation: flyabout var(--d, 7s) ease-in-out infinite; }
+    .a-flapx { animation: flapx var(--d, 0.15s) ease-in-out infinite alternate; }
+    .a-flutter { animation: flutter var(--d, 0.08s) linear infinite alternate; }
+    .a-buzz { animation: buzz var(--d, 2.6s) ease-in-out infinite; }
+    .a-driftx { animation: driftx var(--d, 8s) ease-in-out infinite; }
+    .a-drift { animation: drift var(--d, 3s) ease-in-out infinite; }
+    .a-spout { animation: spout var(--d, 1.6s) ease-in-out infinite; }
+
+    @keyframes bob { from { transform: translateY(0); } to { transform: translateY(var(--y, -10px)); } }
+    @keyframes shadowPulse { from { transform: scaleX(1); opacity: 1; } to { transform: scaleX(0.8); opacity: 0.55; } }
+    @keyframes rock { from { transform: rotate(calc(var(--a, 6deg) * -1)); } to { transform: rotate(var(--a, 6deg)); } }
+    @keyframes pulseS { from { transform: scale(1); } to { transform: scale(var(--s, 1.08)); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.5) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.15) rotate(45deg); }
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10px); opacity: 0; }
+      15%, 85% { opacity: 1; }
+      100% { transform: translateY(var(--y, 60px)); opacity: 0; }
+    }
+    @keyframes rise {
+      0% { transform: translateY(8px) scale(0.7); opacity: 0; }
+      30% { opacity: 0.8; }
+      100% { transform: translateY(-26px) scale(1.3); opacity: 0; }
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      15% { opacity: 0.2; }
+      30% { opacity: 1; }
+      45% { opacity: 0; }
+      60% { opacity: 1; }
+      75% { opacity: 0.4; }
+    }
+    @keyframes hop {
+      0%, 100% { transform: translateY(0) scale(1, 1); }
+      15% { transform: translateY(0) scale(1.06, 0.92); }
+      40% { transform: translateY(-16px) scale(0.96, 1.05); }
+      60% { transform: translateY(0) scale(1.05, 0.95); }
+      75% { transform: translateY(-3px) scale(1, 1); }
+    }
+    @keyframes hopShadow {
+      0%, 15%, 60%, 100% { transform: scaleX(1); opacity: 1; }
+      40% { transform: scaleX(0.78); opacity: 0.55; }
+      75% { transform: scaleX(0.95); opacity: 0.9; }
+    }
+    @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.1); } }
+    @keyframes draw { from { stroke-dashoffset: var(--len, 400); } to { stroke-dashoffset: 0; } }
+    @keyframes flow { from { stroke-dashoffset: 314; } to { stroke-dashoffset: 0; } }
+    @keyframes wave { from { transform: translateX(0); } to { transform: translateX(var(--w, -100px)); } }
+    @keyframes recoil {
+      0%, 68%, 100% { transform: translateX(0); }
+      72% { transform: translateX(-12px); }
+      82% { transform: translateX(2px); }
+      90% { transform: translateX(0); }
+    }
+    @keyframes puff {
+      0%, 70% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+      76% { opacity: 0.9; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(14px, -22px) scale(1.7); }
+    }
+    @keyframes flash {
+      0%, 69% { opacity: 0; transform: scale(0.2); }
+      73% { opacity: 1; transform: scale(1.2); }
+      82%, 100% { opacity: 0; transform: scale(1.5); }
+    }
+    @keyframes tap {
+      0%, 28%, 60%, 100% { transform: translate(0, 0); }
+      36% { transform: translate(-4px, 9px); }
+    }
+    @keyframes impact {
+      0%, 32%, 100% { opacity: 0; transform: scale(0.4); }
+      38% { opacity: 1; transform: scale(1.15); }
+      55% { opacity: 0; transform: scale(1.5); }
+    }
+    @keyframes hammer {
+      0%, 70%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(14deg); }
+      36% { transform: rotate(-22deg); }
+      46% { transform: rotate(-18deg); }
+    }
+    @keyframes squeeze {
+      0%, 100% { transform: scale(1, 1); }
+      45% { transform: scale(1.07, 0.94); }
+      62% { transform: scale(0.98, 1.03); }
+    }
+    @keyframes arrowFly {
+      0% { transform: translate(-170px, 60px) rotate(0deg); opacity: 0; }
+      8% { opacity: 1; }
+      28% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(0, 0) rotate(-4deg); }
+      38% { transform: translate(0, 0) rotate(3deg); }
+      43% { transform: translate(0, 0) rotate(-1deg); }
+      48%, 88% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    }
+    @keyframes targetHit {
+      0%, 26%, 44%, 100% { transform: translateX(0); }
+      30% { transform: translateX(6px); }
+      36% { transform: translateX(-3px); }
+      40% { transform: translateX(1px); }
+    }
+    @keyframes shuttle {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-16px, -28px) rotate(-25deg); }
+    }
+    @keyframes flyabout {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-70px, 22px); }
+      50% { transform: translate(-150px, 0); }
+      75% { transform: translate(-80px, -18px); }
+    }
+    @keyframes flapx { from { transform: scaleX(1); } to { transform: scaleX(0.25); } }
+    @keyframes flutter { from { transform: scaleY(1); } to { transform: scaleY(0.55); } }
+    @keyframes buzz {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(8px, -10px) rotate(3deg); }
+      50% { transform: translate(-6px, -4px) rotate(-2deg); }
+      75% { transform: translate(4px, 6px) rotate(2deg); }
+    }
+    @keyframes driftx { 0%, 100% { transform: translateX(-18px); } 50% { transform: translateX(18px); } }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) rotate(-8deg); }
+      50% { transform: translate(8px, 10px) rotate(8deg); }
+    }
+    @keyframes spout {
+      0%, 100% { transform: scale(0.6); opacity: 0.5; }
+      50% { transform: scale(1.15); opacity: 1; }
     }
 
     /* Target Letter Slots (Tebak Jumlah Huruf) */
@@ -462,16 +605,15 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      margin: 4px 0 10px;
     }
 
     .letter-slots {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     .letter-box {
-      width: 48px;
+      width: 46px;
       height: 52px;
       background: rgba(15, 23, 42, 0.85);
       border: 2px solid rgba(255, 255, 255, 0.25);
@@ -491,7 +633,12 @@
       border-color: #34d399;
       color: #ffffff;
       box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
-      animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: letterPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes letterPop {
+      0% { transform: scale(0.3) rotate(-20deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
 
     .letter-count-label {
@@ -501,24 +648,14 @@
       letter-spacing: 1px;
     }
 
-    /* Clues & Reveal Section */
-    .stage-interaction {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
     /* Hint Box */
     .hint-container {
       width: 100%;
-      max-width: 950px;
-      min-height: 64px;
+      min-height: 56px;
       background: rgba(30, 41, 59, 0.85);
       border: 1px dashed rgba(255, 255, 255, 0.25);
       border-radius: 16px;
-      padding: 10px 24px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -534,29 +671,28 @@
     }
 
     .hint-text {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      line-height: 1.5;
+      line-height: 1.45;
       color: #e2e8f0;
     }
 
     .hint-placeholder {
       color: var(--text-muted);
       font-style: italic;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
     }
 
     /* Answer Reveal Box */
     .answer-container {
       width: 100%;
-      max-width: 950px;
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.3));
       border: 2px solid var(--success);
-      border-radius: 20px;
-      padding: 14px 28px;
+      border-radius: 18px;
+      padding: 12px 18px;
       display: none;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 4px;
       animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 0 35px rgba(16, 185, 129, 0.35);
     }
@@ -570,14 +706,8 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    .answer-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
     .answer-label {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: #6ee7b7;
@@ -585,28 +715,30 @@
     }
 
     .answer-name {
-      font-size: 2.6rem;
+      font-size: 2.2rem;
       font-weight: 900;
       letter-spacing: 4px;
       color: #ffffff;
+      line-height: 1.1;
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    .answer-right {
-      text-align: right;
-      max-width: 520px;
+    .answer-formula {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fde68a;
     }
 
     .answer-story {
-      font-size: 1.08rem;
+      font-size: 0.98rem;
       color: #f1f5f9;
       font-weight: 500;
       line-height: 1.45;
     }
 
     .answer-verse {
-      margin-top: 6px;
-      display: inline-block;
+      align-self: flex-start;
+      margin-top: 2px;
       font-size: 0.9rem;
       background: rgba(16, 185, 129, 0.3);
       color: #a7f3d0;
@@ -617,26 +749,28 @@
 
     /* Presentation Control Bar */
     .controls-bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 14px;
+      flex: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .btn-action {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: #ffffff;
-      padding: 12px 24px;
+      padding: 12px 14px;
       border-radius: 14px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      touch-action: manipulation;
     }
 
     .btn-action:hover {
@@ -668,7 +802,6 @@
 
     .btn-nav {
       background: rgba(255, 255, 255, 0.1);
-      padding: 12px 20px;
     }
 
     .btn-nav:hover {
@@ -744,8 +877,11 @@
       z-index: 99;
     }
 
-    /* Mobile Phone Responsive (HP) */
-    @media (max-width: 768px) {
+    /* Tablet portrait & HP: satu kolom */
+    @media (max-width: 900px) {
+      :root {
+        --ph1: clamp(170px, 36vh, 380px);
+      }
       header {
         padding: 8px 14px;
       }
@@ -756,7 +892,7 @@
         font-size: 0.8rem;
         padding: 4px 8px;
       }
-      .header-actions .btn-header span:not(#sound-icon) {
+      .btn-label {
         display: none;
       }
       .btn-header {
@@ -766,7 +902,7 @@
         padding: 8px 10px 14px;
       }
       .hud-bar {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 10px;
       }
       .question-nav {
@@ -778,62 +914,60 @@
         font-size: 0.85rem;
       }
       .timer-container {
-        justify-self: center;
-        margin: 0 auto;
         padding: 4px 14px;
       }
       .timer-display {
         font-size: 1.4rem;
       }
-      .teams-container {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .team-badge {
-        padding: 6px 10px;
-        gap: 8px;
-        border-radius: 12px;
-      }
-      .team-name {
-        font-size: 0.9rem;
-      }
-      .team-score {
-        font-size: 1.25rem;
-      }
-      .btn-score {
-        min-width: 44px;
-        height: 38px;
-        font-size: 0.85rem;
-        border-radius: 8px;
-      }
       .game-arena {
+        grid-template-columns: 1fr;
+        gap: 14px;
         padding: 14px 12px;
         border-radius: 18px;
+      }
+      .side-col {
+        padding-left: 0;
+        border-left: none;
+      }
+      .side-scroll {
+        overflow: visible;
       }
       .level-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 6px;
+      }
+      .level-title {
+        font-size: 1.2rem;
       }
       .instruction-badge {
+        margin-left: 0;
         font-size: 0.85rem;
       }
       .puzzle-stage {
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 10px;
       }
       .puzzle-card {
+        flex: 1 1 100%;
         padding: 12px 14px;
         border-radius: 16px;
       }
-      .puzzle-svg-wrap {
-        width: 190px;
-        height: 155px;
+      .cards-2 .puzzle-card,
+      .cards-3 .puzzle-card {
+        flex: 0 1 calc(var(--ar, 1.4) * 34%);
+        padding: 10px 8px;
+      }
+      .cards-2 .modifier-badge,
+      .cards-3 .modifier-badge {
+        font-size: 1.35rem;
+        padding: 2px 10px;
+        letter-spacing: 1px;
+        gap: 5px;
       }
       .modifier-badge {
-        font-size: 1.1rem;
-        padding: 4px 12px;
+        font-size: 1.7rem;
+        padding: 2px 14px;
+        border-width: 2px;
       }
       .puzzle-operator {
         font-size: 2rem;
@@ -844,31 +978,27 @@
         font-size: 1.35rem;
         border-radius: 8px;
       }
-      .hint-container, .answer-container {
-        padding: 10px 14px;
-      }
       .hint-text {
         font-size: 1.05rem;
       }
       .answer-name {
         font-size: 1.8rem;
       }
-      .answer-container {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-      .answer-right {
-        text-align: center;
-      }
-      .controls-bar {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-      }
       .btn-action {
-        padding: 8px 14px;
+        padding: 10px 12px;
         font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-title {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .puzzle-stage *, .puzzle-stage *::before, .puzzle-stage *::after {
+        animation: none !important;
       }
     }
   </style>
@@ -887,156 +1017,83 @@
 
     <div class="header-actions">
       <button class="btn-header" id="btn-sound-toggle" title="Matikan / Hidupkan Suara">
-        <span id="sound-icon">🔊</span> <span id="sound-text">Suara: ON</span>
+        <span id="sound-icon">🔊</span> <span class="btn-label" id="sound-text">Suara: ON</span>
       </button>
       <button class="btn-header" id="btn-shortcuts" title="Bantuan Keyboard Presenter">
-        ⌨️ Panduan Guru
+        ⌨️ <span class="btn-label">Panduan Guru</span>
       </button>
       <button class="btn-header" id="btn-fullscreen" title="Layar Penuh untuk Proyektor">
-        ⛶ Layar Penuh
+        ⛶ <span class="btn-label">Layar Penuh</span>
       </button>
     </div>
   </header>
 
   <!-- Main Game Screen -->
   <main>
-    <!-- HUD: Nomor Soal, Timer, Scoreboard -->
+    <!-- HUD: Nomor Soal & Timer -->
     <div class="hud-bar">
-      <!-- Question Navigator -->
       <div class="question-nav" id="question-nav"></div>
 
-      <!-- Center Timer -->
       <div class="timer-container">
         <button class="btn-timer" id="btn-timer-toggle" title="Mulai / Jeda Timer">▶</button>
         <div class="timer-display" id="timer-display">00:45</div>
         <button class="btn-timer" id="btn-timer-reset" title="Reset Timer">↺</button>
       </div>
-
-      <!-- Teams Scoreboard -->
-      <div class="teams-container" id="teams-container">
-        <div class="team-badge">
-          <div class="team-dot" style="background: var(--team-a)"></div>
-          <span class="team-name" onclick="renameTeam(0)">Regu 1</span>
-          <span class="team-score" id="score-team-0">0</span>
-          <div class="team-btn-group">
-            <button class="btn-score btn-score-plus" onclick="modifyScore(0, 100)">+100</button>
-            <button class="btn-score btn-score-minus" onclick="modifyScore(0, -50)">-50</button>
-          </div>
-        </div>
-
-        <div class="team-badge">
-          <div class="team-dot" style="background: var(--team-b)"></div>
-          <span class="team-name" onclick="renameTeam(1)">Regu 2</span>
-          <span class="team-score" id="score-team-1">0</span>
-          <div class="team-btn-group">
-            <button class="btn-score btn-score-plus" onclick="modifyScore(1, 100)">+100</button>
-            <button class="btn-score btn-score-minus" onclick="modifyScore(1, -50)">-50</button>
-          </div>
-        </div>
-
-        <div class="team-badge">
-          <div class="team-dot" style="background: var(--team-c)"></div>
-          <span class="team-name" onclick="renameTeam(2)">Regu 3</span>
-          <span class="team-score" id="score-team-2">0</span>
-          <div class="team-btn-group">
-            <button class="btn-score btn-score-plus" onclick="modifyScore(2, 100)">+100</button>
-            <button class="btn-score btn-score-minus" onclick="modifyScore(2, -50)">-50</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Arena Game Screen -->
     <div class="game-arena">
-      <!-- Level Title - GENERIC (NO SPOILERS!) -->
-      <div class="level-header">
-        <div class="level-num-title">
-          <span id="level-badge" class="level-tag">SOAL #1 DARI 12</span>
-          <span id="level-title">Siapakah Tokoh Ini?</span>
+      <!-- Kolom kiri: gambar rebus -->
+      <section class="stage-col">
+        <!-- Level Title - GENERIC (NO SPOILERS!) -->
+        <div class="level-header">
+          <span id="level-badge" class="level-tag">SOAL #1</span>
+          <span class="level-title">Siapakah Tokoh Ini?</span>
+          <span class="instruction-badge">Tebak nama bendanya &amp; perhatikan operasi hurufnya!</span>
         </div>
-        <div class="instruction-badge">
-          Tebak nama bendanya & perhatikan operasi hurufnya!
+
+        <div class="puzzle-stage" id="puzzle-stage"></div>
+      </section>
+
+      <!-- Kolom kanan: huruf, clue, jawaban, tombol guru -->
+      <aside class="side-col" id="side-col">
+        <div class="side-scroll">
+        <div class="letter-slots-container">
+          <div class="letter-slots" id="letter-slots"></div>
+          <div class="letter-count-label" id="letter-count-label"></div>
         </div>
-      </div>
 
-      <!-- Puzzle Visual Stage -->
-      <div class="puzzle-stage" id="puzzle-stage">
-        <div class="puzzle-card">
-          <div class="puzzle-svg-wrap">
-            <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="tapeOuterInit" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#b45309" />
-                  <stop offset="50%" stop-color="#78350f" />
-                  <stop offset="100%" stop-color="#451a03" />
-                </linearGradient>
-                <linearGradient id="tapeCoreInit" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#fef3c7" />
-                  <stop offset="100%" stop-color="#d97706" />
-                </linearGradient>
-              </defs>
-              <ellipse cx="140" cy="155" rx="105" ry="32" fill="rgba(0,0,0,0.35)" />
-              <g transform="translate(140, 95)">
-                <path d="M -90 -20 C -90 25, 90 25, 90 -20 L 90 25 C 90 70, -90 70, -90 25 Z" fill="url(#tapeOuterInit)" />
-                <ellipse cx="0" cy="-20" rx="90" ry="42" fill="#d97706" stroke="#f59e0b" stroke-width="3" />
-                <ellipse cx="0" cy="-20" rx="46" ry="22" fill="#1e293b" />
-                <ellipse cx="0" cy="-18" rx="42" ry="19" fill="url(#tapeCoreInit)" />
-                <ellipse cx="0" cy="-15" rx="38" ry="17" fill="#0f172a" />
-                <path d="M 65 -5 C 95 10, 115 45, 125 70 L 95 72 C 85 45, 65 25, 45 10 Z" fill="#b45309" opacity="0.9" />
-              </g>
-            </svg>
-          </div>
-          <div class="modifier-badge"><span style="color:#f43f5e; text-decoration:line-through; font-size:1.6rem;">K</span> <span style="color:#f43f5e; font-size:1.4rem;">✕</span></div>
-        </div>
-      </div>
-
-      <!-- Letter Slots (Target Jumlah Huruf Tebakan) -->
-      <div class="letter-slots-container">
-        <div class="letter-slots" id="letter-slots"></div>
-        <div class="letter-count-label" id="letter-count-label">5 HURUF</div>
-      </div>
-
-      <!-- Hint & Reveal Area -->
-      <div class="stage-interaction">
-        <!-- Hint Box -->
         <div class="hint-container" id="hint-container">
           <div class="hint-placeholder" id="hint-placeholder">
-            💡 Tekan tombol <b>"Buka Clue Alkitab"</b> jika anak-anak butuh bantuan petunjuk kisah tokoh!
+            💡 Butuh bantuan? Tekan <b>"Buka Clue"</b> untuk petunjuk kisah tokoh.
           </div>
           <div class="hint-text" id="hint-text" style="display: none;"></div>
         </div>
 
-        <!-- Answer Revealed Box -->
         <div class="answer-container" id="answer-container">
-          <div class="answer-left">
-            <span class="answer-label">Jawaban:</span>
-            <span class="answer-name" id="answer-name">LABAN</span>
-          </div>
-          <div class="answer-right">
-            <div class="answer-story" id="answer-story"></div>
-            <span class="answer-verse" id="answer-verse"></span>
-          </div>
+          <span class="answer-label">Jawaban</span>
+          <span class="answer-name" id="answer-name"></span>
+          <div class="answer-formula" id="answer-formula"></div>
+          <div class="answer-story" id="answer-story"></div>
+          <span class="answer-verse" id="answer-verse"></span>
         </div>
-      </div>
+        </div>
 
-      <!-- Host / Teacher Controls -->
-      <div class="controls-bar">
-        <button class="btn-action btn-nav" id="btn-prev" title="Soal Sebelumnya (Panah Kiri)">
-          ◀ Sebelumnya
-        </button>
-
-        <button class="btn-action btn-hint" id="btn-toggle-hint" title="Buka Clue Kisah Alkitab (H)">
-          💡 Buka Clue Alkitab
-        </button>
-
-        <button class="btn-action btn-reveal" id="btn-reveal-answer" title="Buka Kunci Jawaban (Spasi / Enter)">
-          ✨ Buka Jawaban!
-        </button>
-
-        <button class="btn-action btn-nav" id="btn-next" title="Soal Berikutnya (Panah Kanan)">
-          Selanjutnya ▶
-        </button>
-      </div>
+        <div class="controls-bar">
+          <button class="btn-action btn-hint" id="btn-toggle-hint" title="Buka Clue Kisah Alkitab (H)">
+            💡 Buka Clue
+          </button>
+          <button class="btn-action btn-reveal" id="btn-reveal-answer" title="Buka Kunci Jawaban (Spasi / Enter)">
+            ✨ Buka Jawaban
+          </button>
+          <button class="btn-action btn-nav" id="btn-prev" title="Soal Sebelumnya (Panah Kiri)">
+            ◀ Sebelumnya
+          </button>
+          <button class="btn-action btn-nav" id="btn-next" title="Soal Berikutnya (Panah Kanan)">
+            Selanjutnya ▶
+          </button>
+        </div>
+      </aside>
     </div>
   </main>
 
@@ -1082,40 +1139,88 @@
 
   <script>
     /* ==========================================================
+       HELPER UNTUK BADGE & GAMBAR
+       ========================================================== */
+    const del = (t) => `<span class="b-del">${t}</span>`;
+    const add = (t) => `<span class="b-add">${t}</span>`;
+    const TO = `<span class="b-arrow">➔</span>`;
+    const X = `<span class="b-x">✕</span>`;
+    const DOT = `<span class="b-dot">•</span>`;
+    const AKHIR = `<span class="b-note">(akhir)</span>`;
+
+    const STAR_PATH = "M 0 -10 Q 2 -2 10 0 Q 2 2 0 10 Q -2 2 -10 0 Q -2 -2 0 -10 Z";
+
+    // Bintang berkelip (animasi)
+    function spark(x, y, s = 1, delay = 0, color = "#fde68a") {
+      return `<g transform="translate(${x} ${y}) scale(${s})"><path class="a-twinkle" style="animation-delay:${delay}s" d="${STAR_PATH}" fill="${color}" /></g>`;
+    }
+
+    // Bintang diam (dipakai di dalam grup yang sudah beranimasi)
+    function star(x, y, s = 1, color = "#fde047") {
+      return `<g transform="translate(${x} ${y}) scale(${s})"><path d="${STAR_PATH}" fill="${color}" /></g>`;
+    }
+
+    // Tetes hujan / air yang jatuh
+    function drop(x, y, delay = 0, fall = 60, color = "#7dd3fc") {
+      return `<path class="a-fall" style="--y:${fall}px; animation-delay:${delay}s" d="M ${x} ${y} Q ${x - 6} ${y + 12} ${x} ${y + 16} Q ${x + 6} ${y + 12} ${x} ${y} Z" fill="${color}" />`;
+    }
+
+    // Kartu huruf tambahan (misal "+ B")
+    function letterSvg(ch) {
+      return `
+        <svg width="100%" height="100%" viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="a-shadow" style="--d:1.4s" cx="70" cy="152" rx="40" ry="10" fill="rgba(0,0,0,0.3)" />
+          <g class="a-bob" style="--d:1.4s; --y:-10px">
+            <circle cx="70" cy="82" r="48" fill="#0f172a" stroke="#fbbf24" stroke-width="6" />
+            <text x="70" y="102" text-anchor="middle" fill="#fbbf24" font-size="58" font-weight="900" font-family="system-ui, sans-serif">${ch}</text>
+          </g>
+          ${spark(112, 40, 0.9, 0)}
+          ${spark(28, 130, 0.6, 0.7)}
+        </svg>
+      `;
+    }
+
+    /* ==========================================================
        DATA SOAL TEBAK GAMBAR TOKOH ALKITAB (MURNI TANPA SPOILER)
+       Kartu: { svg, badgeHtml } | { letter: "B" } | { operator: "+" }
        ========================================================== */
     const QUESTIONS = [
       {
         id: 1,
-        name: "LABAN",
-        formula: "LAKBAN - K = LABAN",
-        story: "Paman Yakub (saudara Ribka) yang tinggal di Haran. Yakub bekerja menggembalakan domba padanya selama 14 tahun untuk menikahi Rahel & Lea.",
-        verse: "Kejadian 29:13-30",
-        hint: "Kisah: Paman dari Yakub di Haran, mertua yang memberikan Lea & Rahel.",
+        name: "ELIA",
+        formula: "ELANG (A ➔ I, NG ➔ A) = ELIA",
+        story: "Nabi yang berdoa sehingga api turun dari langit di Gunung Karmel dan mengalahkan nabi-nabi Baal. Ia pernah diberi makan burung gagak, lalu terangkat ke surga dengan kereta berapi.",
+        verse: "1 Raja-raja 17:6; 18:36-38; 2 Raja-raja 2:11",
+        hint: "Kisah: Nabi yang diberi makan burung gagak dan naik ke langit dengan kereta berapi.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through; font-size:1.6rem;">K</span> <span style="color:#f43f5e; font-size:1.4rem;">✕</span>`,
+            badgeHtml: `${del("A")} ${TO} ${add("I")} ${DOT} ${del("NG")} ${TO} ${add("A")}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="tapeOuter1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#b45309" />
-                    <stop offset="50%" stop-color="#78350f" />
-                    <stop offset="100%" stop-color="#451a03" />
-                  </linearGradient>
-                  <linearGradient id="tapeCore1" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#fef3c7" />
-                    <stop offset="100%" stop-color="#d97706" />
-                  </linearGradient>
-                </defs>
-                <ellipse cx="140" cy="155" rx="105" ry="32" fill="rgba(0,0,0,0.35)" />
-                <g transform="translate(140, 95)">
-                  <path d="M -90 -20 C -90 25, 90 25, 90 -20 L 90 25 C 90 70, -90 70, -90 25 Z" fill="url(#tapeOuter1)" />
-                  <ellipse cx="0" cy="-20" rx="90" ry="42" fill="#d97706" stroke="#f59e0b" stroke-width="3" />
-                  <ellipse cx="0" cy="-20" rx="46" ry="22" fill="#1e293b" />
-                  <ellipse cx="0" cy="-18" rx="42" ry="19" fill="url(#tapeCore1)" />
-                  <ellipse cx="0" cy="-15" rx="38" ry="17" fill="#0f172a" />
-                  <path d="M 65 -5 C 95 10, 115 45, 125 70 L 95 72 C 85 45, 65 25, 45 10 Z" fill="#b45309" opacity="0.9" />
+                <ellipse class="a-shadow" style="--d:1.2s" cx="140" cy="188" rx="70" ry="9" fill="rgba(0,0,0,0.3)" />
+                <g class="a-bob" style="--d:1.2s; --y:-12px">
+                  <!-- Sayap kiri (mengepak) -->
+                  <g class="a-rock vb" style="--a:16deg; --d:0.6s; transform-origin:140px 100px">
+                    <path d="M 140 95 C 110 55, 60 45, 15 65 C 40 78, 45 88, 32 100 C 65 94, 100 106, 140 115 Z" fill="#78350f" stroke="#451a03" stroke-width="2" />
+                    <path d="M 40 82 L 70 88 M 55 72 L 85 82" stroke="#b45309" stroke-width="3" stroke-linecap="round" />
+                  </g>
+                  <!-- Sayap kanan (mengepak) -->
+                  <g class="a-rock vb" style="--a:-16deg; --d:0.6s; transform-origin:140px 100px">
+                    <path d="M 140 95 C 170 55, 220 45, 265 65 C 240 78, 235 88, 248 100 C 215 94, 180 106, 140 115 Z" fill="#78350f" stroke="#451a03" stroke-width="2" />
+                    <path d="M 240 82 L 210 88 M 225 72 L 195 82" stroke="#b45309" stroke-width="3" stroke-linecap="round" />
+                  </g>
+                  <!-- Ekor, badan, cakar -->
+                  <path d="M 124 140 L 140 172 L 156 140 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+                  <ellipse cx="140" cy="115" rx="24" ry="36" fill="#92400e" />
+                  <path d="M 130 146 L 126 158 M 150 146 L 154 158" stroke="#facc15" stroke-width="4" stroke-linecap="round" />
+                  <!-- Kepala putih -->
+                  <circle cx="140" cy="70" r="20" fill="#f8fafc" />
+                  <path d="M 128 62 L 137 65 M 152 62 L 143 65" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" />
+                  <g class="a-blink">
+                    <circle cx="133" cy="68" r="3" fill="#0f172a" />
+                    <circle cx="147" cy="68" r="3" fill="#0f172a" />
+                  </g>
+                  <path d="M 132 76 Q 150 72 147 90 Q 142 82 134 82 Z" fill="#facc15" stroke="#ca8a04" stroke-width="1.5" />
                 </g>
               </svg>
             `
@@ -1124,30 +1229,33 @@
       },
       {
         id: 2,
-        name: "DAUD",
-        formula: "DAUN (N ➔ D) = DAUD",
-        story: "Gembala pemberani yang membunuh raksasa Goliat dengan umban batu, pandai memuji Tuhan dengan kecapi, dan menjadi raja terbesar Israel.",
-        verse: "1 Samuel 17:48-50",
-        hint: "Kisah: Gembala pemuda yang mengalahkan pendekar Goliat dengan sebutir batu.",
+        name: "TOMAS",
+        formula: "TOMAT (T terakhir ➔ S) = TOMAS",
+        story: "Salah satu dari 12 murid Yesus yang tidak mau percaya Yesus bangkit sebelum melihat sendiri bekas paku di tangan-Nya. Saat Yesus menampakkan diri, ia berseru: 'Ya Tuhanku dan Allahku!'",
+        verse: "Yohanes 20:24-28",
+        hint: "Kisah: Murid yang ingin mencucukkan jarinya ke bekas paku di tangan Yesus sebelum percaya.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">N</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">D</span>`,
+            badgeHtml: `${del("T")}${AKHIR} ${TO} ${add("S")}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#4ade80" />
-                    <stop offset="60%" stop-color="#16a34a" />
-                    <stop offset="100%" stop-color="#14532d" />
-                  </linearGradient>
+                  <radialGradient id="gTomat" cx="40%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#fca5a5" />
+                    <stop offset="35%" stop-color="#ef4444" />
+                    <stop offset="100%" stop-color="#991b1b" />
+                  </radialGradient>
                 </defs>
-                <ellipse cx="140" cy="155" rx="80" ry="20" fill="rgba(0,0,0,0.3)" />
-                <path d="M 50 140 C 40 40, 150 20, 230 40 C 210 130, 130 170, 50 140 Z" fill="url(#leafGrad2)" stroke="#22c55e" stroke-width="3" />
-                <path d="M 40 155 Q 120 110 230 40" stroke="#86efac" stroke-width="4" fill="none" stroke-linecap="round" />
-                <path d="M 100 115 Q 130 90 140 70" stroke="#86efac" stroke-width="2.5" fill="none" />
-                <path d="M 125 105 Q 155 125 180 120" stroke="#86efac" stroke-width="2.5" fill="none" />
-                <path d="M 155 85 Q 185 70 195 55" stroke="#86efac" stroke-width="2.5" fill="none" />
-                <circle cx="170" cy="65" r="7" fill="#bae6fd" opacity="0.8" />
+                <ellipse class="a-hopshadow" style="--d:1.8s" cx="140" cy="168" rx="70" ry="14" fill="rgba(0,0,0,0.3)" />
+                ${spark(58, 60, 1, 0)}
+                ${spark(225, 72, 0.8, 0.6)}
+                ${spark(228, 145, 0.6, 1.1)}
+                <g class="a-hop vb" style="--d:1.8s; transform-origin:140px 163px">
+                  <ellipse cx="140" cy="105" rx="68" ry="58" fill="url(#gTomat)" stroke="#b91c1c" stroke-width="2" />
+                  <path d="M 140 52 L 120 40 L 132 58 L 108 60 L 132 66 L 140 78 L 148 66 L 172 60 L 148 58 L 160 40 Z" fill="#16a34a" stroke="#15803d" stroke-width="2" stroke-linejoin="round" />
+                  <rect x="137" y="32" width="6" height="18" rx="3" fill="#15803d" />
+                  <ellipse cx="112" cy="88" rx="12" ry="7" fill="#ffffff" opacity="0.45" transform="rotate(-30 112 88)" />
+                </g>
               </svg>
             `
           }
@@ -1155,29 +1263,35 @@
       },
       {
         id: 3,
-        name: "NUH",
-        formula: "PENUH - PE = NUH",
-        story: "Orang benar yang taat membangun bahtera kayu gofir raksasa untuk menyelamatkan keluarganya dan pasang-pasang binatang dari air bah.",
-        verse: "Kejadian 6:8-14",
-        hint: "Kisah: Orang yang taat membuat kapal/bahtera raksasa penyelamat saat banjir besar.",
+        name: "HARUN",
+        formula: "JARUM (J ➔ H, M ➔ N) = HARUN",
+        story: "Kakak Musa yang menjadi juru bicaranya di hadapan Firaun. Tongkatnya berubah menjadi ular di depan Firaun, dan ia menjadi imam besar pertama bangsa Israel.",
+        verse: "Keluaran 4:14-16; 7:10; 28:1",
+        hint: "Kisah: Kakak Musa yang menjadi juru bicaranya di hadapan Firaun dan menjadi imam besar pertama.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">PE-</span> <span style="color:#f43f5e;">✕</span>`,
+            badgeHtml: `${del("J")} ${TO} ${add("H")} ${DOT} ${del("M")} ${TO} ${add("N")}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="waterGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#38bdf8" />
-                    <stop offset="100%" stop-color="#0284c7" />
+                  <linearGradient id="gJarum" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f8fafc" />
+                    <stop offset="100%" stop-color="#64748b" />
                   </linearGradient>
                 </defs>
-                <ellipse cx="140" cy="155" rx="70" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 90 45 L 105 135 C 108 148, 172 148, 175 135 L 190 45 Z" fill="rgba(255,255,255,0.15)" stroke="#e2e8f0" stroke-width="3" />
-                <path d="M 93 50 L 105 132 C 108 144, 172 144, 175 132 L 187 50 Z" fill="url(#waterGrad3)" />
-                <ellipse cx="140" cy="50" rx="47" ry="12" fill="#7dd3fc" />
-                <path d="M 188 55 Q 194 65 192 75 Q 186 70 188 55 Z" fill="#38bdf8" />
-                <circle cx="192" cy="85" r="4" fill="#38bdf8" />
-                <circle cx="130" cy="90" r="5" fill="#bae6fd" opacity="0.6" />
+                <ellipse cx="140" cy="172" rx="100" ry="12" fill="rgba(0,0,0,0.3)" />
+                <!-- Benang (seperti sedang menjahit) -->
+                <path class="a-draw" style="--len:460; --d:2.4s" d="M 198 73 C 240 40, 265 120, 225 140 C 190 158, 165 120, 130 150 C 110 166, 90 160, 75 150" stroke="#ef4444" stroke-width="4" fill="none" stroke-linecap="round" />
+                <!-- Jarum -->
+                <g class="a-rock vb" style="--a:4deg; --d:1.2s; transform-origin:198px 73px">
+                  <g transform="rotate(-25 140 100)">
+                    <rect x="50" y="95" width="170" height="10" rx="5" fill="url(#gJarum)" stroke="#475569" stroke-width="1.5" />
+                    <polygon points="52,95 18,100 52,105" fill="#cbd5e1" stroke="#475569" stroke-width="1.5" />
+                    <ellipse cx="204" cy="100" rx="10" ry="2.5" fill="#1e293b" />
+                  </g>
+                </g>
+                ${spark(26, 158, 0.9, 0.3, "#ffffff")}
+                ${spark(120, 60, 0.7, 1, "#ffffff")}
               </svg>
             `
           }
@@ -1185,32 +1299,34 @@
       },
       {
         id: 4,
-        name: "MUSA",
-        formula: "MUKA (K ➔ S) = MUSA",
-        story: "Bayi yang dihanyutkan di sungai Nil dan diangkat putri Firaun. Dipanggil Tuhan lewat semak berapi, membelah Laut Teberau, dan menerima 10 Perintah Allah.",
-        verse: "Keluaran 14:21-22",
-        hint: "Kisah: Tokoh bertekat kuat yang membelah Laut Teberau dengan tongkatnya dan memimpin Israel keluar dari Mesir.",
+        name: "SARA",
+        formula: "SARANG - NG = SARA",
+        story: "Istri Abraham yang tertawa ketika dijanjikan akan mempunyai anak di masa tuanya. Allah menepati janji-Nya dan Sara melahirkan Ishak pada usia 90 tahun.",
+        verse: "Kejadian 18:12-14; 21:1-3",
+        hint: "Kisah: Istri Abraham yang tertawa mendengar ia akan punya anak di masa tua.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">K</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">S</span>`,
+            badgeHtml: `${del("NG")} ${X}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="faceGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#fed7aa" />
-                    <stop offset="100%" stop-color="#fba86c" />
-                  </linearGradient>
-                </defs>
-                <ellipse cx="140" cy="155" rx="75" ry="18" fill="rgba(0,0,0,0.3)" />
-                <circle cx="140" cy="85" r="55" fill="url(#faceGrad4)" stroke="#ea580c" stroke-width="2.5" />
-                <path d="M 85 75 Q 140 30 195 75 Q 175 45 140 45 Q 105 45 85 75 Z" fill="#78350f" />
-                <ellipse cx="120" cy="80" rx="6" ry="8" fill="#1e293b" />
-                <ellipse cx="160" cy="80" rx="6" ry="8" fill="#1e293b" />
-                <circle cx="122" cy="78" r="2.5" fill="#ffffff" />
-                <circle cx="162" cy="78" r="2.5" fill="#ffffff" />
-                <ellipse cx="105" cy="95" rx="9" ry="5" fill="#f43f5e" opacity="0.4" />
-                <ellipse cx="175" cy="95" rx="9" ry="5" fill="#f43f5e" opacity="0.4" />
-                <path d="M 125 98 Q 140 115 155 98" stroke="#78350f" stroke-width="4" fill="none" stroke-linecap="round" />
+                <ellipse cx="140" cy="168" rx="95" ry="14" fill="rgba(0,0,0,0.3)" />
+                ${spark(60, 45, 1, 0)}
+                ${spark(222, 40, 0.8, 0.8)}
+                <!-- Sarang bagian belakang -->
+                <ellipse cx="140" cy="95" rx="88" ry="20" fill="#78350f" />
+                <!-- Telur bergoyang -->
+                <ellipse class="a-rock ob" style="--a:7deg; --d:0.8s" cx="108" cy="86" rx="17" ry="22" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2" />
+                <ellipse class="a-rock ob" style="--a:-7deg; --d:0.8s; animation-delay:0.4s" cx="172" cy="86" rx="17" ry="22" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2" />
+                <g class="a-hop vb" style="--d:1.6s; transform-origin:140px 104px">
+                  <ellipse cx="140" cy="80" rx="18" ry="24" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+                  <path d="M 126 76 L 133 70 L 139 78 L 146 70 L 154 77" stroke="#94a3b8" stroke-width="2" fill="none" stroke-linejoin="round" />
+                </g>
+                <!-- Sarang bagian depan -->
+                <path d="M 52 95 C 58 165, 222 165, 228 95 Z" fill="#92400e" stroke="#78350f" stroke-width="3" />
+                <path d="M 60 105 Q 140 130 220 102" stroke="#d97706" stroke-width="3" fill="none" />
+                <path d="M 66 120 Q 140 145 214 118" stroke="#b45309" stroke-width="3" fill="none" />
+                <path d="M 80 135 Q 140 155 200 133" stroke="#d97706" stroke-width="3" fill="none" />
+                <path d="M 48 92 L 75 112 M 232 92 L 205 110 M 100 100 L 125 140 M 180 100 L 160 142" stroke="#b45309" stroke-width="3" stroke-linecap="round" />
               </svg>
             `
           }
@@ -1218,49 +1334,48 @@
       },
       {
         id: 5,
-        name: "ESTER",
-        formula: "ES + (SETIR - I) = ESTER",
-        story: "Gadis yatim piatu yang diangkat menjadi Ratu Persia. Dengan puasa dan doa ia berani menghadap Raja Ahasyweros untuk menggagalkan rencana jahat Haman.",
-        verse: "Ester 4:16",
-        hint: "Kisah: Ratu pemberani yang berkata: 'Kalau terpaksa aku mati, biarlah aku mati' demi menyelamatkan bangsanya.",
+        name: "MARIA",
+        formula: "MERIAM (E ➔ A, M terakhir ✕) = MARIA",
+        story: "Perempuan muda dari Nazaret yang dikunjungi malaikat Gabriel dan dipilih Allah menjadi ibu Tuhan Yesus. Ia menjawab dengan rendah hati: 'Sesungguhnya aku ini adalah hamba Tuhan.'",
+        verse: "Lukas 1:26-38",
+        hint: "Kisah: Perempuan dari Nazaret yang dikunjungi malaikat Gabriel dan menjadi ibu Yesus.",
         cards: [
           {
-            badgeHtml: null,
+            badgeHtml: `${del("E")} ${TO} ${add("A")} ${DOT} ${del("M")}${AKHIR} ${X}`,
             svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="iceGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#e0f2fe" />
-                    <stop offset="100%" stop-color="#7dd3fc" />
+                  <linearGradient id="gMeriam" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#94a3b8" />
+                    <stop offset="50%" stop-color="#334155" />
+                    <stop offset="100%" stop-color="#0f172a" />
                   </linearGradient>
                 </defs>
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 60 70 L 110 50 L 150 70 L 100 90 Z" fill="#bae6fd" stroke="#0284c7" stroke-width="2" />
-                <path d="M 60 70 L 100 90 L 100 135 L 60 115 Z" fill="url(#iceGrad5)" stroke="#0284c7" stroke-width="2" />
-                <path d="M 100 90 L 150 70 L 150 115 L 100 135 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" />
-                <path d="M 145 45 Q 155 45 155 35 Q 155 45 165 45 Q 155 45 155 55 Q 155 45 145 45 Z" fill="#ffffff" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">I</span> <span style="color:#f43f5e;">✕</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="wheelGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#475569" />
-                    <stop offset="100%" stop-color="#1e293b" />
-                  </linearGradient>
-                </defs>
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <circle cx="120" cy="80" r="52" fill="none" stroke="url(#wheelGrad5)" stroke-width="14" />
-                <circle cx="120" cy="80" r="16" fill="#334155" stroke="#94a3b8" stroke-width="3" />
-                <line x1="68" y1="80" x2="104" y2="80" stroke="#475569" stroke-width="9" />
-                <line x1="136" y1="80" x2="172" y2="80" stroke="#475569" stroke-width="9" />
-                <line x1="120" y1="96" x2="120" y2="132" stroke="#475569" stroke-width="9" />
+                <ellipse cx="140" cy="168" rx="115" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Meriam (mundur saat menembak) -->
+                <g class="a-recoil" style="--d:3s">
+                  <g transform="rotate(-22 120 105)">
+                    <circle cx="48" cy="105" r="13" fill="#1e293b" stroke="#64748b" stroke-width="2" />
+                    <rect x="52" y="86" width="150" height="38" rx="16" fill="url(#gMeriam)" stroke="#0f172a" stroke-width="2" />
+                    <rect x="194" y="81" width="16" height="48" rx="4" fill="#475569" stroke="#0f172a" stroke-width="2" />
+                    <rect x="100" y="84" width="10" height="42" rx="2" fill="#fbbf24" opacity="0.8" />
+                  </g>
+                  <circle cx="105" cy="132" r="34" fill="#78350f" stroke="#451a03" stroke-width="5" />
+                  <path d="M 105 98 L 105 166 M 71 132 L 139 132 M 81 108 L 129 156 M 129 108 L 81 156" stroke="#451a03" stroke-width="4" />
+                  <circle cx="105" cy="132" r="9" fill="#fbbf24" stroke="#92400e" stroke-width="2" />
+                </g>
+                <!-- Kilatan & asap tembakan -->
+                <path class="a-flash" style="--d:3s" d="M 222 62 L 230 46 L 234 60 L 250 54 L 238 66 L 252 76 L 234 72 L 228 88 L 224 72 L 208 74 Z" fill="#fbbf24" />
+                <circle class="a-puff" style="--d:3s" cx="232" cy="52" r="14" fill="#e2e8f0" />
+                <circle class="a-puff" style="--d:3s; animation-delay:0.08s" cx="250" cy="38" r="10" fill="#e2e8f0" />
+                <circle class="a-puff" style="--d:3s; animation-delay:0.16s" cx="248" cy="64" r="8" fill="#e2e8f0" />
+                <!-- Peluru meriam -->
+                <circle cx="205" cy="158" r="12" fill="#475569" stroke="#94a3b8" stroke-width="2" />
+                <circle cx="231" cy="158" r="12" fill="#475569" stroke="#94a3b8" stroke-width="2" />
+                <circle cx="218" cy="138" r="12" fill="#475569" stroke="#94a3b8" stroke-width="2" />
+                <circle cx="214" cy="134" r="3" fill="#cbd5e1" />
+                <circle cx="201" cy="154" r="3" fill="#cbd5e1" />
+                <circle cx="227" cy="154" r="3" fill="#cbd5e1" />
               </svg>
             `
           }
@@ -1268,22 +1383,39 @@
       },
       {
         id: 6,
-        name: "YUNUS",
-        formula: "(YOYO - YO) + (DUS: D ➔ N) = YUNUS",
-        story: "Nabi yang diutus ke kota Niniwe namun melarikan diri naik kapal ke Tarsis. Ia dilempar ke laut, ditelan ikan besar, dan tinggal 3 hari di dalam perutnya sebelum bertobat.",
-        verse: "Yunus 1:17; 2:10",
-        hint: "Kisah: Nabi yang sempat tinggal 3 hari 3 malam di dalam perut ikan besar di dasar laut.",
+        name: "YAKUB",
+        formula: "PAKU (P ➔ Y) + B = YAKUB",
+        story: "Anak Ishak dan adik kembar Esau. Di Betel ia bermimpi melihat tangga yang sampai ke langit. Setelah bergumul dengan Allah, namanya diganti menjadi Israel. Ayah dari 12 suku Israel.",
+        verse: "Kejadian 28:12; 32:28",
+        hint: "Kisah: Bermimpi melihat tangga yang sampai ke langit, dan namanya diganti menjadi Israel.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">YO</span> <span style="color:#f43f5e;">✕</span>`,
+            badgeHtml: `${del("P")} ${TO} ${add("Y")}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="60" ry="16" fill="rgba(0,0,0,0.3)" />
-                <path d="M 120 25 L 120 75" stroke="#f8fafc" stroke-width="3" stroke-dasharray="4,2" />
-                <circle cx="120" cy="22" r="6" fill="none" stroke="#f8fafc" stroke-width="2.5" />
-                <ellipse cx="115" cy="85" rx="35" ry="42" fill="#ef4444" stroke="#b91c1c" stroke-width="2" />
-                <ellipse cx="125" cy="85" rx="35" ry="42" fill="#f87171" stroke="#dc2626" stroke-width="2" />
-                <ellipse cx="125" cy="85" rx="16" ry="20" fill="#fef08a" />
+                <defs>
+                  <linearGradient id="gPaku" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#64748b" />
+                    <stop offset="50%" stop-color="#e2e8f0" />
+                    <stop offset="100%" stop-color="#64748b" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="120" cy="158" rx="60" ry="12" fill="rgba(0,0,0,0.3)" />
+                <!-- Paku (seperti sedang dipukul masuk) -->
+                <g class="a-tap" style="--d:1.4s">
+                  <g transform="rotate(25 120 90)">
+                    <ellipse cx="120" cy="30" rx="30" ry="9" fill="#cbd5e1" stroke="#64748b" stroke-width="2" />
+                    <rect x="113" y="36" width="14" height="96" fill="url(#gPaku)" />
+                    <polygon points="113,132 127,132 120,156" fill="#94a3b8" />
+                    <line x1="113" y1="44" x2="127" y2="48" stroke="#64748b" stroke-width="2" />
+                    <line x1="113" y1="52" x2="127" y2="56" stroke="#64748b" stroke-width="2" />
+                  </g>
+                </g>
+                <g class="a-impact" style="--d:1.4s">
+                  ${star(168, 20, 0.9)}
+                  ${star(126, 14, 0.7)}
+                  ${star(176, 50, 0.6)}
+                </g>
               </svg>
             `
           },
@@ -1291,54 +1423,48 @@
             operator: "+"
           },
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">D</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">N</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="boxGrad6" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#d97706" />
-                    <stop offset="100%" stop-color="#92400e" />
-                  </linearGradient>
-                </defs>
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 75 70 L 120 50 L 165 70 L 120 90 Z" fill="#f59e0b" stroke="#b45309" stroke-width="2" />
-                <path d="M 75 70 L 120 90 L 120 135 L 75 115 Z" fill="url(#boxGrad6)" stroke="#b45309" stroke-width="2" />
-                <path d="M 120 90 L 165 70 L 165 115 L 120 135 Z" fill="#b45309" stroke="#78350f" stroke-width="2" />
-                <line x1="120" y1="50" x2="120" y2="90" stroke="#fed7aa" stroke-width="4" opacity="0.6" />
-              </svg>
-            `
+            letter: "B"
           }
         ]
       },
       {
         id: 7,
-        name: "PETRUS",
-        formula: "(PETIR - I) + (DUS - D) = PETRUS",
-        story: "Nelayan bersaudara dengan Andreas yang dipanggil Yesus menjadi penjala manusia. Pernah berjalan di atas air dan diberi nama 'Kefas / Petrus' yang berarti Batu Karang.",
-        verse: "Matius 14:28-29; 16:18",
-        hint: "Kisah: Murid Yesus yang pernah berjalan di atas air di Danau Galilea.",
+        name: "HAGAR",
+        formula: "PAGAR (P ➔ H) = HAGAR",
+        story: "Hamba perempuan Sara yang berasal dari Mesir, ibu dari Ismael. Ketika ia dan anaknya kehausan di padang gurun, Allah mendengar suara anak itu dan menunjukkan sebuah sumur.",
+        verse: "Kejadian 16:1, 15; 21:17-19",
+        hint: "Kisah: Hamba Sara dari Mesir, ibu Ismael, yang ditolong Allah dengan sumur di padang gurun.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">I</span> <span style="color:#f43f5e;">✕</span>`,
+            badgeHtml: `${del("P")} ${TO} ${add("H")}`,
             svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="60" ry="16" fill="rgba(0,0,0,0.3)" />
-                <path d="M 70 70 A 25 25 0 0 1 120 55 A 30 30 0 0 1 170 70 A 20 20 0 0 1 160 90 L 80 90 A 20 20 0 0 1 70 70 Z" fill="#475569" />
-                <polygon points="125,75 100,105 125,105 105,140 150,95 125,95 140,75" fill="#facc15" stroke="#ca8a04" stroke-width="2" filter="drop-shadow(0 0 8px #fef08a)" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">D</span> <span style="color:#f43f5e;">✕</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 75 70 L 120 50 L 165 70 L 120 90 Z" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
-                <path d="M 75 70 L 120 90 L 120 135 L 75 115 Z" fill="#d97706" stroke="#b45309" stroke-width="2" />
-                <path d="M 120 90 L 165 70 L 165 115 L 120 135 Z" fill="#b45309" stroke="#78350f" stroke-width="2" />
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="140" cy="168" rx="125" ry="16" fill="#166534" opacity="0.8" />
+                <!-- Palang -->
+                <rect x="22" y="82" width="236" height="13" rx="3" fill="#b45309" stroke="#78350f" stroke-width="2" />
+                <rect x="22" y="128" width="236" height="13" rx="3" fill="#b45309" stroke="#78350f" stroke-width="2" />
+                <!-- Tiang Pagar -->
+                <polygon points="34,62 51,38 68,62 68,165 34,165" fill="#f59e0b" stroke="#92400e" stroke-width="2.5" />
+                <polygon points="82,62 99,38 116,62 116,165 82,165" fill="#f59e0b" stroke="#92400e" stroke-width="2.5" />
+                <polygon points="130,62 147,38 164,62 164,165 130,165" fill="#f59e0b" stroke="#92400e" stroke-width="2.5" />
+                <polygon points="178,62 195,38 212,62 212,165 178,165" fill="#f59e0b" stroke="#92400e" stroke-width="2.5" />
+                <polygon points="226,62 243,38 260,62 260,165 226,165" fill="#f59e0b" stroke="#92400e" stroke-width="2.5" />
+                <!-- Rumput bergoyang -->
+                <path class="a-rock ob" style="--a:8deg; --d:1.4s" d="M 20 168 L 28 152 L 34 168 L 42 150 L 50 168" stroke="#22c55e" stroke-width="3" fill="none" />
+                <path class="a-rock ob" style="--a:8deg; --d:1.4s; animation-delay:0.3s" d="M 100 168 L 108 150 L 114 168" stroke="#22c55e" stroke-width="3" fill="none" />
+                <path class="a-rock ob" style="--a:8deg; --d:1.4s; animation-delay:0.6s" d="M 180 168 L 188 152 L 194 168 L 202 150 L 210 168" stroke="#22c55e" stroke-width="3" fill="none" />
+                <!-- Kupu-kupu terbang -->
+                <g class="a-flyabout" style="--d:7s">
+                  <g transform="translate(222 30)">
+                    <g class="a-flapx" style="--d:0.15s">
+                      <ellipse cx="-8" cy="-4" rx="9" ry="11" fill="#f472b6" />
+                      <ellipse cx="8" cy="-4" rx="9" ry="11" fill="#f472b6" />
+                      <ellipse cx="-6" cy="8" rx="6" ry="7" fill="#c084fc" />
+                      <ellipse cx="6" cy="8" rx="6" ry="7" fill="#c084fc" />
+                    </g>
+                    <rect x="-1.5" y="-10" width="3" height="22" rx="1.5" fill="#1e293b" />
+                  </g>
+                </g>
               </svg>
             `
           }
@@ -1346,29 +1472,39 @@
       },
       {
         id: 8,
-        name: "HAWA",
-        formula: "MAWAR (M ➔ H, R ✕) = HAWA",
-        story: "Diciptakan Allah dari salah satu tulang rusuk Adam untuk menjadi penolong yang sepadan bagi manusia di Taman Eden.",
-        verse: "Kejadian 2:21-23",
-        hint: "Kisah: Wanita pertama di dunia yang diciptakan Allah di Taman Eden dari rusuk pria.",
+        name: "RUT",
+        formula: "ROTI (O ➔ U, I ✕) = RUT",
+        story: "Perempuan Moab yang setia kepada mertuanya Naomi: 'Ke mana engkau pergi, ke situ jugalah aku pergi.' Ia memungut jelai di ladang Boas, lalu menikah dengannya dan menjadi nenek buyut Raja Daud.",
+        verse: "Rut 1:16; 4:13-17",
+        hint: "Kisah: Menantu setia yang ikut mertuanya Naomi ke Betlehem dan memungut jelai di ladang Boas.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">M</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">H</span> &bull; <span style="color:#f43f5e; text-decoration:line-through;">R</span> <span style="color:#f43f5e;">✕</span>`,
+            badgeHtml: `${del("O")} ${TO} ${add("U")} ${DOT} ${del("I")} ${X}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="roseGrad8" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#fb7185" />
-                    <stop offset="50%" stop-color="#e11d48" />
-                    <stop offset="100%" stop-color="#881337" />
+                  <linearGradient id="gRoti" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#d97706" />
+                    <stop offset="100%" stop-color="#92400e" />
                   </linearGradient>
                 </defs>
-                <ellipse cx="140" cy="155" rx="70" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 140 110 Q 145 135 140 150" stroke="#15803d" stroke-width="5" fill="none" stroke-linecap="round" />
-                <path d="M 143 130 Q 160 120 165 130 Q 150 140 142 135" fill="#22c55e" />
-                <circle cx="140" cy="85" r="42" fill="url(#roseGrad8)" stroke="#be123c" stroke-width="2" />
-                <path d="M 120 80 Q 140 60 160 80 Q 140 100 120 80 Z" fill="#fda4af" opacity="0.6" />
-                <path d="M 130 85 Q 140 75 150 85 Q 140 95 130 85 Z" fill="#ffffff" opacity="0.5" />
+                <ellipse cx="140" cy="184" rx="85" ry="10" fill="rgba(0,0,0,0.3)" />
+                <!-- Uap hangat -->
+                <path class="a-rise" style="--d:2.4s" d="M 110 34 q -7 -6 0 -12 q 7 -6 0 -12" stroke="#e2e8f0" stroke-width="4" fill="none" stroke-linecap="round" />
+                <path class="a-rise" style="--d:2.4s; animation-delay:0.8s" d="M 140 30 q -7 -6 0 -12 q 7 -6 0 -12" stroke="#e2e8f0" stroke-width="4" fill="none" stroke-linecap="round" />
+                <path class="a-rise" style="--d:2.4s; animation-delay:1.6s" d="M 170 34 q -7 -6 0 -12 q 7 -6 0 -12" stroke="#e2e8f0" stroke-width="4" fill="none" stroke-linecap="round" />
+                <!-- Roti Tawar (irisan) -->
+                <g transform="translate(0 20)">
+                  <g class="a-pulse ob" style="--s:1.04; --d:1.2s">
+                    <path d="M 80 160 L 80 85 C 45 80, 50 28, 100 32 C 120 18, 160 18, 180 32 C 230 28, 235 80, 200 85 L 200 160 Z" fill="url(#gRoti)" stroke="#78350f" stroke-width="3" />
+                    <path transform="translate(140 95) scale(0.84) translate(-140 -95)" d="M 80 160 L 80 85 C 45 80, 50 28, 100 32 C 120 18, 160 18, 180 32 C 230 28, 235 80, 200 85 L 200 160 Z" fill="#fef3c7" />
+                    <circle cx="115" cy="80" r="3" fill="#fcd34d" />
+                    <circle cx="155" cy="70" r="2.5" fill="#fcd34d" />
+                    <circle cx="140" cy="115" r="3" fill="#fcd34d" />
+                    <circle cx="170" cy="120" r="2.5" fill="#fcd34d" />
+                    <circle cx="110" cy="130" r="2.5" fill="#fcd34d" />
+                  </g>
+                </g>
               </svg>
             `
           }
@@ -1376,41 +1512,39 @@
       },
       {
         id: 9,
-        name: "GOLIAT",
-        formula: "GOL + (LIHAT - H) = GOLIAT",
-        story: "Pendekar raksasa dari Gat setinggi 3 meter berzirah tembaga tebal yang menantang tentara Israel, namun roboh oleh sebuah batu umban anak gembala.",
-        verse: "1 Samuel 17:4, 49",
-        hint: "Kisah: Pendekar raksasa bertubuh besar bangsa Filistin yang menantang tentara Allah.",
+        name: "KALEB",
+        formula: "KALENG (NG ➔ B) = KALEB",
+        story: "Salah satu dari 12 pengintai tanah Kanaan. Bersama Yosua ia percaya Tuhan sanggup memberi kemenangan. Karena setia, ia boleh masuk tanah perjanjian dan menerima Hebron pada usia 85 tahun.",
+        verse: "Bilangan 13:30; 14:24; Yosua 14:10-13",
+        hint: "Kisah: Pengintai yang setia bersama Yosua dan berkata: 'Kita akan sanggup mengalahkannya!'",
         cards: [
           {
-            badgeHtml: `<span style="color:#22c55e; font-weight:900;">GOL!</span>`,
+            badgeHtml: `${del("NG")} ${TO} ${add("B")}`,
             svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="60" ry="16" fill="rgba(0,0,0,0.3)" />
-                <path d="M 60 120 L 75 50 L 165 50 L 180 120 Z" fill="none" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6,4" />
-                <circle cx="120" cy="85" r="32" fill="#ffffff" stroke="#0f172a" stroke-width="3" />
-                <polygon points="120,72 131,80 127,93 113,93 109,80" fill="#0f172a" />
-                <line x1="65" y1="85" x2="82" y2="85" stroke="#fbbf24" stroke-width="4" stroke-linecap="round" />
-                <line x1="60" y1="75" x2="80" y2="75" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">H</span> <span style="color:#f43f5e;">✕</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <!-- Mata Mengamati / Melihat -->
-                <path d="M 50 85 Q 120 35 190 85 Q 120 135 50 85 Z" fill="#ffffff" stroke="#334155" stroke-width="3" />
-                <circle cx="120" cy="85" r="26" fill="#3b82f6" />
-                <circle cx="120" cy="85" r="14" fill="#0f172a" />
-                <circle cx="128" cy="77" r="6" fill="#ffffff" />
-                <!-- Magnifying Glass Rim -->
-                <circle cx="120" cy="85" r="44" fill="none" stroke="#f59e0b" stroke-width="5" />
-                <line x1="152" y1="117" x2="185" y2="150" stroke="#f59e0b" stroke-width="9" stroke-linecap="round" />
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gKaleng" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#64748b" />
+                    <stop offset="35%" stop-color="#f1f5f9" />
+                    <stop offset="100%" stop-color="#475569" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="140" cy="172" rx="70" ry="12" fill="rgba(0,0,0,0.3)" />
+                <!-- Kaleng bergoyang -->
+                <g class="a-rock vb" style="--a:4deg; --d:1.1s; transform-origin:140px 170px">
+                  <ellipse cx="140" cy="160" rx="48" ry="13" fill="#475569" />
+                  <rect x="92" y="45" width="96" height="115" fill="url(#gKaleng)" />
+                  <path d="M 92 62 Q 140 74 188 62 M 92 145 Q 140 157 188 145" stroke="#94a3b8" stroke-width="3" fill="none" />
+                  <path d="M 92 78 Q 140 90 188 78 L 188 132 Q 140 144 92 132 Z" fill="#ef4444" />
+                  <path d="M 92 88 Q 140 100 188 88 M 92 122 Q 140 134 188 122" stroke="#fbbf24" stroke-width="3" fill="none" />
+                  <circle cx="140" cy="108" r="12" fill="#fef3c7" />
+                  <ellipse cx="140" cy="45" rx="48" ry="13" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" />
+                  <ellipse cx="140" cy="45" rx="40" ry="9" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+                  <ellipse cx="152" cy="43" rx="10" ry="4" fill="none" stroke="#64748b" stroke-width="2.5" />
+                </g>
+                ${spark(78, 50, 1, 0, "#ffffff")}
+                ${spark(205, 75, 0.8, 0.5)}
+                ${spark(208, 150, 0.6, 1)}
               </svg>
             `
           }
@@ -1418,43 +1552,32 @@
       },
       {
         id: 10,
-        name: "YUSUF",
-        formula: "(YOYO - YO) + (SUP: P ➔ F) = YUSUF",
-        story: "Anak kesayangan Yakub pemilik jubah beraneka warna yang dijual abang-abangnya ke Mesir, lalu diangkat jadi orang nomor 2 di Mesir setelah menafsirkan mimpi Firaun.",
-        verse: "Kejadian 37:3; 41:40",
-        hint: "Kisah: Pemilik jubah warna-warni yang menjadi penguasa di Mesir dan memelihara keluarganya saat masa kelaparan.",
+        name: "SAUL",
+        formula: "SAUS (S terakhir ➔ L) = SAUL",
+        story: "Raja pertama Israel yang diurapi Nabi Samuel. Badannya lebih tinggi dari semua orang, tetapi kemudian tidak taat kepada Tuhan dan iri hati kepada Daud.",
+        verse: "1 Samuel 10:1, 23-24; 18:8-9",
+        hint: "Kisah: Raja pertama bangsa Israel yang diurapi Nabi Samuel, lalu iri hati kepada Daud.",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">YO</span> <span style="color:#f43f5e;">✕</span>`,
+            badgeHtml: `${del("S")}${AKHIR} ${TO} ${add("L")}`,
             svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="120" cy="145" rx="60" ry="16" fill="rgba(0,0,0,0.3)" />
-                <path d="M 120 25 L 120 75" stroke="#f8fafc" stroke-width="3" stroke-dasharray="4,2" />
-                <ellipse cx="120" cy="85" rx="35" ry="42" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2" />
-                <ellipse cx="120" cy="85" rx="16" ry="20" fill="#93c5fd" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">P</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">F</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="soupGrad10" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#f59e0b" />
-                    <stop offset="100%" stop-color="#d97706" />
-                  </linearGradient>
-                </defs>
-                <ellipse cx="120" cy="145" rx="65" ry="18" fill="rgba(0,0,0,0.3)" />
-                <path d="M 70 80 Q 65 125 120 130 Q 175 125 170 80 Z" fill="#ec4899" stroke="#be185d" stroke-width="3" />
-                <ellipse cx="120" cy="80" rx="50" ry="16" fill="url(#soupGrad10)" stroke="#fef08a" stroke-width="1.5" />
-                <circle cx="105" cy="80" r="4" fill="#ea580c" />
-                <circle cx="130" cy="83" r="3" fill="#16a34a" />
-                <path d="M 100 65 Q 95 50 105 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
-                <path d="M 120 65 Q 125 45 115 35" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="140" cy="168" rx="60" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Botol Saus Tomat (dipencet) -->
+                <g class="a-squeeze vb" style="--d:1.6s; transform-origin:140px 164px">
+                  <rect x="132" y="6" width="16" height="12" rx="3" fill="#e2e8f0" />
+                  <rect x="122" y="16" width="36" height="20" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+                  <path d="M 120 62 L 126 36 L 154 36 L 160 62 Z" fill="#dc2626" stroke="#991b1b" stroke-width="3" />
+                  <rect x="102" y="60" width="76" height="104" rx="18" fill="#dc2626" stroke="#991b1b" stroke-width="3" />
+                  <rect x="112" y="70" width="8" height="80" rx="4" fill="#ffffff" opacity="0.3" />
+                  <rect x="112" y="90" width="56" height="46" rx="8" fill="#fef3c7" />
+                  <circle cx="140" cy="115" r="14" fill="#ef4444" />
+                  <path d="M 133 102 L 140 106 L 147 102 L 144 108 L 136 108 Z" fill="#16a34a" />
+                </g>
+                <!-- Tetesan saus jatuh -->
+                <ellipse class="a-pulse" style="--s:1.15; --d:0.8s" cx="215" cy="166" rx="18" ry="5" fill="#b91c1c" />
+                ${drop(215, 128, 0, 22, "#dc2626")}
+                ${drop(232, 120, 0.7, 30, "#dc2626")}
               </svg>
             `
           }
@@ -1462,34 +1585,36 @@
       },
       {
         id: 11,
-        name: "ADAM",
-        formula: "AYAM (Y ➔ D) = ADAM",
-        story: "Manusia pertama yang dibentuk Allah dari debu tanah dan diberi nafas hidup, lalu ditempatkan di Taman Eden untuk memeliharanya.",
-        verse: "Kejadian 2:7, 15",
-        hint: "Kisah: Manusia laki-laki pertama yang diciptakan Allah dan memberi nama kepada binatang-binatang.",
+        name: "AYUB",
+        formula: "PAYUNG (P ✕, NG ➔ B) = AYUB",
+        story: "Orang saleh dari tanah Us yang kehilangan hartanya, anak-anaknya, dan kesehatannya, tetapi tetap tidak berbuat dosa dengan bibirnya. Pada akhirnya Tuhan memulihkan keadaannya dua kali lipat.",
+        verse: "Ayub 1:21-22; 42:10",
+        hint: "Kisah: Orang saleh yang kehilangan segalanya tetapi tetap setia: 'TUHAN yang memberi, TUHAN yang mengambil.'",
         cards: [
           {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">Y</span> <span style="color:#38bdf8;">➔</span> <span style="color:#4ade80;">D</span>`,
+            badgeHtml: `${del("P")} ${X} ${DOT} ${del("NG")} ${TO} ${add("B")}`,
             svg: `
               <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="140" cy="160" rx="65" ry="16" fill="rgba(0,0,0,0.3)" />
-                <!-- Rooster / Ayam Body -->
-                <path d="M 95 120 C 80 80, 160 80, 175 120 C 160 145, 105 145, 95 120 Z" fill="#ea580c" />
-                <!-- Tail Feathers -->
-                <path d="M 85 110 Q 55 70 65 115 Q 45 90 75 130 Z" fill="#15803d" />
-                <!-- Head & Neck -->
-                <path d="M 160 115 L 180 75 L 195 90 L 175 120 Z" fill="#dc2626" />
-                <circle cx="182" cy="72" r="14" fill="#dc2626" />
-                <circle cx="186" cy="70" r="3.5" fill="#ffffff" /><circle cx="187" cy="70" r="2" fill="#000" />
-                <!-- Yellow Beak -->
-                <polygon points="196,70 212,74 196,80" fill="#facc15" />
-                <!-- Red Comb on top -->
-                <path d="M 172 62 Q 177 45 183 60 Q 190 48 193 62 Z" fill="#ef4444" />
-                <!-- Wattle under chin -->
-                <ellipse cx="192" cy="85" rx="4" ry="7" fill="#ef4444" />
-                <!-- Legs -->
-                <line x1="125" y1="135" x2="125" y2="160" stroke="#f59e0b" stroke-width="3" />
-                <line x1="145" y1="135" x2="145" y2="160" stroke="#f59e0b" stroke-width="3" />
+                <ellipse cx="140" cy="184" rx="60" ry="10" fill="rgba(0,0,0,0.3)" />
+                <!-- Hujan (tertutup payung) -->
+                ${drop(70, 6, 0, 70)}
+                ${drop(110, 0, 0.5, 60)}
+                ${drop(170, 4, 0.9, 60)}
+                ${drop(210, 10, 0.3, 70)}
+                ${drop(140, 0, 1.2, 50)}
+                ${drop(26, 80, 0.7, 70)}
+                ${drop(254, 76, 0.2, 70)}
+                ${drop(40, 30, 1.1, 60)}
+                ${drop(244, 26, 0.6, 60)}
+                <!-- Payung bergoyang ditiup angin -->
+                <g class="a-rock vb" style="--a:5deg; --d:1.8s; transform-origin:140px 178px">
+                  <line x1="140" y1="30" x2="140" y2="160" stroke="#475569" stroke-width="5" stroke-linecap="round" />
+                  <path d="M 140 158 Q 140 180 124 180 Q 110 180 110 166" stroke="#92400e" stroke-width="8" fill="none" stroke-linecap="round" />
+                  <path d="M 40 105 C 40 35, 240 35, 240 105 Q 215 88 190 105 Q 165 88 140 105 Q 115 88 90 105 Q 65 88 40 105 Z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.5" />
+                  <path d="M 140 45 Q 105 70 90 105 Q 115 88 140 105 Z" fill="#facc15" opacity="0.85" />
+                  <path d="M 140 45 Q 175 70 190 105 Q 215 88 240 105 C 240 70, 200 47, 140 45 Z" fill="#facc15" opacity="0.85" />
+                  <path d="M 140 45 Q 105 70 90 105 M 140 45 Q 175 70 190 105 M 140 45 L 140 105" stroke="#1d4ed8" stroke-width="2.5" fill="none" />
+                </g>
               </svg>
             `
           }
@@ -1497,65 +1622,608 @@
       },
       {
         id: 12,
-        name: "SALOMO",
-        formula: "(SAPU - PU) + (LOMPAT - PAT) + O = SALOMO",
-        story: "Raja Israel ketiga yang paling berhikmat dan masyhur, anak dari Daud dan Batsyeba yang membangun Bait Suci megah di Yerusalem.",
-        verse: "1 Raja-raja 3:12; 6:1",
-        hint: "Kisah: Raja Israel yang meminta hikmat kepada Allah saat bermimpi di Gibeon, dan membangun Bait Allah yang megah.",
+        name: "ESAU",
+        formula: "ES + (PISAU - PIS) = ESAU",
+        story: "Kakak kembar Yakub, seorang pemburu yang tubuhnya berbulu. Karena sangat lapar, ia menjual hak kesulungannya kepada Yakub hanya demi semangkuk sup kacang merah.",
+        verse: "Kejadian 25:27-34",
+        hint: "Kisah: Pemburu yang menukar hak kesulungannya dengan semangkuk sup kacang merah.",
         cards: [
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">PU</span> <span style="color:#f43f5e;">✕</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="100" cy="145" rx="55" ry="14" fill="rgba(0,0,0,0.3)" />
-                <!-- Broom Handle -->
-                <line x1="60" y1="30" x2="115" y2="110" stroke="#b45309" stroke-width="7" stroke-linecap="round" />
-                <!-- Straw Bristles -->
-                <path d="M 115 110 L 90 145 L 145 145 L 125 110 Z" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
-                <line x1="105" y1="110" x2="98" y2="145" stroke="#d97706" stroke-width="2" />
-                <line x1="120" y1="110" x2="125" y2="145" stroke="#d97706" stroke-width="2" />
-                <rect x="110" y="112" width="22" height="6" fill="#ef4444" rx="2" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
-          {
-            badgeHtml: `<span style="color:#f43f5e; text-decoration:line-through;">PAT</span> <span style="color:#f43f5e;">✕</span>`,
-            svg: `
-              <svg width="100%" height="100%" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="100" cy="145" rx="55" ry="14" fill="rgba(0,0,0,0.3)" />
-                <!-- Trampoline Base -->
-                <ellipse cx="100" cy="135" rx="55" ry="12" fill="#38bdf8" stroke="#0284c7" stroke-width="3" />
-                <line x1="60" y1="135" x2="55" y2="150" stroke="#64748b" stroke-width="4" />
-                <line x1="140" y1="135" x2="145" y2="150" stroke="#64748b" stroke-width="4" />
-                <!-- Stickman Jumping in Air with Joy -->
-                <circle cx="100" cy="50" r="12" fill="#facc15" />
-                <line x1="100" y1="62" x2="100" y2="92" stroke="#ffffff" stroke-width="4" />
-                <!-- Arms Up in Jump -->
-                <line x1="100" y1="72" x2="78" y2="52" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-                <line x1="100" y1="72" x2="122" y2="52" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-                <!-- Legs spread jumping -->
-                <line x1="100" y1="92" x2="82" y2="115" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-                <line x1="100" y1="92" x2="118" y2="115" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-                <!-- Motion Jump Swoosh -->
-                <path d="M 85 125 Q 100 105 115 125" stroke="#38bdf8" stroke-width="3" fill="none" stroke-dasharray="3,3" />
-              </svg>
-            `
-          },
-          {
-            operator: "+"
-          },
           {
             badgeHtml: null,
             svg: `
-              <svg width="100%" height="100%" viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="70" cy="145" rx="45" ry="12" fill="rgba(0,0,0,0.3)" />
-                <circle cx="70" cy="85" r="42" fill="#0f172a" stroke="#fbbf24" stroke-width="6" />
-                <text x="70" y="105" text-anchor="middle" fill="#fbbf24" font-size="52" font-weight="900">O</text>
+              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gEs" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e0f2fe" />
+                    <stop offset="100%" stop-color="#7dd3fc" />
+                  </linearGradient>
+                </defs>
+                <ellipse class="a-shadow" style="--d:1.8s" cx="105" cy="150" rx="55" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Es batu mengambang -->
+                <g class="a-bob" style="--d:1.8s; --y:-10px">
+                  <path d="M 60 70 L 110 50 L 150 70 L 100 90 Z" fill="#bae6fd" stroke="#0284c7" stroke-width="2" />
+                  <path d="M 60 70 L 100 90 L 100 135 L 60 115 Z" fill="url(#gEs)" stroke="#0284c7" stroke-width="2" />
+                  <path d="M 100 90 L 150 70 L 150 115 L 100 135 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" />
+                  <path d="M 72 82 L 72 100" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+                </g>
+                ${spark(160, 42, 1, 0, "#ffffff")}
+                ${spark(48, 52, 0.7, 0.7, "#ffffff")}
+                ${drop(130, 132, 0.4, 16, "#bae6fd")}
               </svg>
             `
+          },
+          {
+            operator: "+"
+          },
+          {
+            badgeHtml: `${del("PIS")} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gPisau" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f8fafc" />
+                    <stop offset="100%" stop-color="#94a3b8" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="120" cy="145" rx="80" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Pisau -->
+                <g class="a-rock" style="--a:5deg; --d:1.5s">
+                  <g transform="rotate(-15 120 95)">
+                    <path d="M 25 100 L 140 80 L 140 112 Q 80 116 25 100 Z" fill="url(#gPisau)" stroke="#64748b" stroke-width="2" />
+                    <rect x="138" y="76" width="8" height="40" rx="2" fill="#475569" />
+                    <rect x="146" y="82" width="68" height="28" rx="9" fill="#92400e" stroke="#78350f" stroke-width="2" />
+                    <circle cx="165" cy="96" r="3.5" fill="#e2e8f0" />
+                    <circle cx="195" cy="96" r="3.5" fill="#e2e8f0" />
+                  </g>
+                </g>
+                ${spark(70, 98, 1, 0.2, "#ffffff")}
+                ${spark(115, 84, 0.6, 0.9, "#ffffff")}
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 13,
+        name: "HANA",
+        formula: "PANAH (P ➔ H, H terakhir ✕) = HANA",
+        story: "Perempuan yang berdoa sungguh-sungguh sambil menangis di rumah Tuhan di Silo, memohon seorang anak. Allah menjawab doanya, dan ia menyerahkan anaknya, Samuel, untuk melayani Tuhan seumur hidupnya.",
+        verse: "1 Samuel 1:10-11, 20, 27-28",
+        hint: "Kisah: Ibu yang berdoa sambil menangis di rumah Tuhan memohon anak, lalu melahirkan Samuel.",
+        cards: [
+          {
+            badgeHtml: `${del("P")} ${TO} ${add("H")} ${DOT} ${del("H")}${AKHIR} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="140" cy="175" rx="110" ry="12" fill="rgba(0,0,0,0.3)" />
+                <!-- Papan sasaran (bergetar saat kena) -->
+                <g class="a-target" style="--d:3s">
+                  <circle cx="215" cy="95" r="52" fill="#ef4444" stroke="#991b1b" stroke-width="3" />
+                  <circle cx="215" cy="95" r="38" fill="#f8fafc" />
+                  <circle cx="215" cy="95" r="25" fill="#ef4444" />
+                  <circle cx="215" cy="95" r="11" fill="#facc15" />
+                </g>
+                <!-- Anak panah melesat -->
+                <g class="a-arrow vb" style="--d:3s; transform-origin:216px 95px">
+                  <line x1="30" y1="160" x2="205" y2="99" stroke="#92400e" stroke-width="6" stroke-linecap="round" />
+                  <polygon points="216,95 194,92 200,110" fill="#94a3b8" stroke="#475569" stroke-width="2" />
+                  <polygon points="30,160 22,140 52,150" fill="#22c55e" />
+                  <polygon points="30,160 42,178 52,153" fill="#16a34a" />
+                  <polygon points="46,154 38,134 66,145" fill="#22c55e" />
+                  <polygon points="46,154 58,172 66,148" fill="#16a34a" />
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: "KAIN",
+        formula: "KAIL (L ➔ N) = KAIN",
+        story: "Anak sulung Adam dan Hawa, seorang petani. Ketika persembahannya tidak diindahkan Tuhan, ia iri hati dan membunuh adiknya sendiri, Habel.",
+        verse: "Kejadian 4:2-9",
+        hint: "Kisah: Anak sulung Adam yang bertanya: 'Apakah aku penjaga adikku?'",
+        cards: [
+          {
+            badgeHtml: `${del("L")} ${TO} ${add("N")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <clipPath id="clipAirKail">
+                    <rect x="10" y="0" width="260" height="60" />
+                  </clipPath>
+                </defs>
+                <!-- Permukaan air berombak -->
+                <g clip-path="url(#clipAirKail)">
+                  <g class="a-wave" style="--w:-100px; --d:2.5s">
+                    <path d="M -100 30 Q -75 20 -50 30 T 0 30 T 50 30 T 100 30 T 150 30 T 200 30 T 250 30 T 300 30 T 350 30 T 400 30" stroke="#38bdf8" stroke-width="4" fill="none" opacity="0.7" />
+                  </g>
+                </g>
+                <!-- Gelembung -->
+                <circle class="a-rise" style="--d:2.2s" cx="70" cy="110" r="5" fill="#bae6fd" opacity="0.6" />
+                <circle class="a-rise" style="--d:2.6s; animation-delay:0.9s" cx="205" cy="130" r="7" fill="#bae6fd" opacity="0.5" />
+                <circle class="a-rise" style="--d:2s; animation-delay:1.5s" cx="230" cy="90" r="4" fill="#bae6fd" opacity="0.6" />
+                <!-- Pelampung, senar & mata kail -->
+                <g class="a-bob" style="--d:1.6s; --y:6px">
+                  <line x1="150" y1="-20" x2="150" y2="68" stroke="#e2e8f0" stroke-width="2.5" />
+                  <ellipse cx="150" cy="30" rx="9" ry="13" fill="#ef4444" />
+                  <path d="M 141 30 A 9 13 0 0 0 159 30 Z" fill="#ffffff" />
+                  <circle cx="150" cy="74" r="7" fill="none" stroke="#cbd5e1" stroke-width="4" />
+                  <path d="M 150 81 L 150 140 A 32 32 0 0 1 86 140 L 86 112" stroke="#cbd5e1" stroke-width="8" fill="none" stroke-linecap="round" />
+                  <polygon points="86,96 76,118 96,116" fill="#cbd5e1" />
+                  <!-- Umpan cacing menggeliat -->
+                  <path class="a-rock" style="--a:10deg; --d:0.5s" d="M 112 170 q 8 -10 16 0 q 8 10 16 0 q 8 -10 16 0" stroke="#f472b6" stroke-width="7" fill="none" stroke-linecap="round" />
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 15,
+        name: "RAHEL",
+        formula: "RAKET (K ➔ H, T ➔ L) = RAHEL",
+        story: "Anak bungsu Laban yang cantik. Yakub sangat mengasihinya sehingga rela bekerja bertahun-tahun untuk menikahinya; tujuh tahun terasa seperti beberapa hari saja. Ia menjadi ibu dari Yusuf dan Benyamin.",
+        verse: "Kejadian 29:18, 20; 35:24",
+        hint: "Kisah: Istri yang paling dikasihi Yakub, ibu dari Yusuf dan Benyamin.",
+        cards: [
+          {
+            badgeHtml: `${del("K")} ${TO} ${add("H")} ${DOT} ${del("T")} ${TO} ${add("L")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <clipPath id="clipRaket">
+                    <ellipse cx="120" cy="72" rx="36" ry="48" />
+                  </clipPath>
+                </defs>
+                <ellipse cx="140" cy="182" rx="100" ry="10" fill="rgba(0,0,0,0.3)" />
+                <!-- Raket mengayun -->
+                <g class="a-rock vb" style="--a:12deg; --d:0.9s; transform-origin:165px 192px">
+                  <g transform="rotate(-28 120 110)">
+                    <g clip-path="url(#clipRaket)" stroke="#e2e8f0" stroke-width="1.5">
+                      <path d="M 90 20 V 125 M 100 20 V 125 M 110 20 V 125 M 120 20 V 125 M 130 20 V 125 M 140 20 V 125 M 150 20 V 125" />
+                      <path d="M 80 30 H 160 M 80 40 H 160 M 80 50 H 160 M 80 60 H 160 M 80 70 H 160 M 80 80 H 160 M 80 90 H 160 M 80 100 H 160 M 80 110 H 160" />
+                    </g>
+                    <ellipse cx="120" cy="72" rx="38" ry="50" fill="none" stroke="#ef4444" stroke-width="7" />
+                    <path d="M 108 120 L 120 142 L 132 120" stroke="#ef4444" stroke-width="5" fill="none" />
+                    <rect x="116" y="140" width="8" height="30" fill="#94a3b8" />
+                    <rect x="113" y="168" width="14" height="38" rx="5" fill="#1e293b" />
+                  </g>
+                </g>
+                <!-- Kok melambung -->
+                <g class="a-shuttle" style="--d:1.8s">
+                  <g transform="rotate(30 225 120)">
+                    <path d="M 212 85 L 238 85 L 232 125 L 218 125 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+                    <path d="M 218 85 L 221 125 M 225 85 L 225 125 M 232 85 L 229 125" stroke="#cbd5e1" stroke-width="1.5" />
+                    <path d="M 218 125 Q 225 142 232 125 Z" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                  </g>
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 16,
+        name: "HABEL",
+        formula: "KABEL (K ➔ H) = HABEL",
+        story: "Anak kedua Adam dan Hawa, seorang gembala kambing domba. Ia mempersembahkan anak sulung kambing dombanya yang terbaik, sehingga Tuhan mengindahkan persembahannya.",
+        verse: "Kejadian 4:2-4; Ibrani 11:4",
+        hint: "Kisah: Gembala yang mempersembahkan yang terbaik dan persembahannya diterima Tuhan.",
+        cards: [
+          {
+            badgeHtml: `${del("K")} ${TO} ${add("H")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="140" cy="165" rx="105" ry="18" fill="rgba(0,0,0,0.3)" />
+                <!-- Kabel + aliran listrik -->
+                <path d="M 25 150 C 60 50, 110 190, 158 100" stroke="#1e293b" stroke-width="12" fill="none" stroke-linecap="round" />
+                <path d="M 25 150 C 60 50, 110 190, 158 100" stroke="#475569" stroke-width="4" fill="none" stroke-linecap="round" />
+                <path class="a-flow" style="--d:1.2s" d="M 25 150 C 60 50, 110 190, 158 100" stroke="#fde047" stroke-width="5" fill="none" stroke-linecap="round" />
+                <!-- Steker -->
+                <rect x="155" y="78" width="54" height="44" rx="10" fill="#334155" stroke="#64748b" stroke-width="3" />
+                <rect x="163" y="86" width="6" height="28" rx="3" fill="#475569" />
+                <rect x="209" y="87" width="28" height="7" rx="2" fill="#fbbf24" />
+                <rect x="209" y="106" width="28" height="7" rx="2" fill="#fbbf24" />
+                <!-- Percikan listrik -->
+                <polygon class="a-flicker" style="--d:1s" points="250,70 242,90 252,90 244,110 262,84 252,84 258,70" fill="#facc15" />
+                ${spark(258, 125, 0.7, 0.3, "#fde047")}
+                ${spark(236, 62, 0.5, 0.8, "#fde047")}
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 17,
+        name: "TITUS",
+        formula: "TIKUS (K ➔ T) = TITUS",
+        story: "Rekan sekerja Rasul Paulus yang setia. Ia ditinggalkan di Pulau Kreta untuk mengatur jemaat dan menetapkan penatua di setiap kota. Paulus menulis sebuah surat kepadanya yang ada di Alkitab.",
+        verse: "Titus 1:4-5; 2 Korintus 8:23",
+        hint: "Kisah: Rekan Paulus yang ditugaskan di Pulau Kreta dan menerima surat dari Paulus.",
+        cards: [
+          {
+            badgeHtml: `${del("K")} ${TO} ${add("T")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="145" cy="165" rx="95" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Ekor bergoyang -->
+                <path class="a-rock vb" style="--a:10deg; --d:0.8s; transform-origin:210px 125px" d="M 210 125 C 255 125, 262 70, 238 52 C 225 44, 220 60, 232 62" stroke="#f9a8d4" stroke-width="5" fill="none" stroke-linecap="round" />
+                <!-- Badan (bernapas) -->
+                <ellipse class="a-pulse ob" style="--s:1.03; --d:0.9s" cx="160" cy="118" rx="62" ry="42" fill="#9ca3af" stroke="#6b7280" stroke-width="2" />
+                <ellipse cx="135" cy="158" rx="12" ry="5" fill="#f9a8d4" />
+                <ellipse cx="190" cy="158" rx="12" ry="5" fill="#f9a8d4" />
+                <!-- Kepala -->
+                <path d="M 130 92 Q 75 80 42 118 Q 75 140 130 138 Z" fill="#9ca3af" />
+                <path d="M 125 91 Q 75 80 42 118 Q 75 140 125 139" fill="none" stroke="#6b7280" stroke-width="2" />
+                <!-- Telinga -->
+                <circle cx="100" cy="82" r="20" fill="#9ca3af" stroke="#6b7280" stroke-width="2" />
+                <circle cx="100" cy="82" r="12" fill="#fda4af" />
+                <g class="a-rock ob" style="--a:8deg; --d:1.2s">
+                  <circle cx="124" cy="78" r="18" fill="#9ca3af" stroke="#6b7280" stroke-width="2" />
+                  <circle cx="124" cy="78" r="10" fill="#fda4af" />
+                </g>
+                <!-- Mata berkedip -->
+                <g class="a-blink" style="--d:3s">
+                  <circle cx="80" cy="107" r="5" fill="#0f172a" />
+                  <circle cx="82" cy="105" r="1.8" fill="#ffffff" />
+                </g>
+                <!-- Kumis & hidung bergerak -->
+                <g class="a-rock vb" style="--a:6deg; --d:0.3s; transform-origin:58px 120px">
+                  <path d="M 58 116 L 30 106 M 58 120 L 28 122 M 58 124 L 32 136" stroke="#e2e8f0" stroke-width="1.5" />
+                </g>
+                <circle class="a-pulse" style="--s:1.3; --d:0.3s" cx="42" cy="118" r="6" fill="#f472b6" />
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 18,
+        name: "MARTA",
+        formula: "MARTIL (IL ➔ A) = MARTA",
+        story: "Saudara Maria dan Lazarus dari Betania. Ketika Yesus berkunjung, ia sibuk sekali melayani, sedangkan Maria duduk mendengarkan. Yesus berkata Maria telah memilih bagian yang terbaik.",
+        verse: "Lukas 10:38-42",
+        hint: "Kisah: Perempuan dari Betania yang sibuk melayani Yesus di rumah, sementara saudarinya duduk mendengarkan.",
+        cards: [
+          {
+            badgeHtml: `${del("IL")} ${TO} ${add("A")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gKayuMartil" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#92400e" />
+                    <stop offset="50%" stop-color="#d97706" />
+                    <stop offset="100%" stop-color="#92400e" />
+                  </linearGradient>
+                  <linearGradient id="gBesiMartil" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#cbd5e1" />
+                    <stop offset="100%" stop-color="#475569" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="140" cy="172" rx="80" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Martil mengayun memukul -->
+                <g class="a-hammer vb" style="--d:1.6s; transform-origin:175px 160px">
+                  <g transform="rotate(-30 140 100)">
+                    <rect x="131" y="62" width="18" height="108" rx="7" fill="url(#gKayuMartil)" stroke="#78350f" stroke-width="2" />
+                    <rect x="96" y="34" width="70" height="34" rx="5" fill="url(#gBesiMartil)" stroke="#334155" stroke-width="2" />
+                    <path d="M 166 38 Q 195 30 205 14 Q 200 42 166 64 Z" fill="url(#gBesiMartil)" stroke="#334155" stroke-width="2" />
+                    <rect x="86" y="38" width="12" height="26" rx="2" fill="#64748b" />
+                  </g>
+                </g>
+                <!-- Bintang benturan -->
+                <g class="a-impact" style="--d:1.6s">
+                  ${star(48, 100, 1)}
+                  ${star(62, 130, 0.7)}
+                  ${star(36, 74, 0.6)}
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 19,
+        name: "SEM",
+        formula: "SEMUT - UT = SEM",
+        story: "Salah satu dari tiga anak Nuh, bersama Ham dan Yafet. Ia ikut masuk ke dalam bahtera dan selamat dari air bah. Abraham dan bangsa Israel adalah keturunan Sem.",
+        verse: "Kejadian 6:10; 7:13; 11:10, 26",
+        hint: "Kisah: Salah satu dari tiga anak Nuh (bersama Ham dan Yafet) yang selamat di dalam bahtera.",
+        cards: [
+          {
+            badgeHtml: `${del("UT")} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="145" cy="164" rx="110" ry="12" fill="rgba(0,0,0,0.3)" />
+                <!-- Semut berjalan -->
+                <g class="a-bob" style="--d:0.25s; --y:-3px">
+                  <g class="a-rock vb" style="--a:7deg; --d:0.25s; transform-origin:128px 106px">
+                    <path d="M 120 112 L 95 135 L 85 158 M 136 112 L 160 135 L 168 158 M 128 98 L 132 75 L 120 64" stroke="#7f1d1d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <g class="a-rock vb" style="--a:-7deg; --d:0.25s; transform-origin:128px 106px">
+                    <path d="M 128 115 L 125 140 L 115 160 M 118 100 L 92 80 L 80 92 M 138 100 L 165 82 L 178 92" stroke="#7f1d1d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <ellipse cx="200" cy="108" rx="44" ry="32" fill="#b91c1c" stroke="#7f1d1d" stroke-width="2" />
+                  <ellipse cx="128" cy="106" rx="22" ry="15" fill="#b91c1c" stroke="#7f1d1d" stroke-width="2" />
+                  <circle cx="78" cy="98" r="24" fill="#b91c1c" stroke="#7f1d1d" stroke-width="2" />
+                  <ellipse cx="190" cy="96" rx="16" ry="8" fill="#fca5a5" opacity="0.5" />
+                  <g class="a-blink" style="--d:3.5s">
+                    <circle cx="68" cy="92" r="6" fill="#ffffff" />
+                    <circle cx="66" cy="92" r="3" fill="#0f172a" />
+                  </g>
+                  <!-- Antena -->
+                  <g class="a-rock vb" style="--a:8deg; --d:0.7s; transform-origin:78px 78px">
+                    <path d="M 70 76 Q 55 45 35 40 M 86 76 Q 92 45 110 36" stroke="#7f1d1d" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                    <circle cx="35" cy="40" r="4" fill="#7f1d1d" />
+                    <circle cx="110" cy="36" r="4" fill="#7f1d1d" />
+                  </g>
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 20,
+        name: "SIMON",
+        formula: "LEMON (LE ➔ SI) = SIMON",
+        story: "Orang dari Kirene yang sedang lewat ketika Yesus dibawa ke Golgota. Tentara Romawi memaksanya untuk memikul salib Yesus.",
+        verse: "Lukas 23:26; Markus 15:21",
+        hint: "Kisah: Orang dari Kirene yang dipaksa tentara memikul salib Yesus.",
+        cards: [
+          {
+            badgeHtml: `${del("LE")} ${TO} ${add("SI")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="gLemon" cx="40%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#fef9c3" />
+                    <stop offset="40%" stop-color="#fde047" />
+                    <stop offset="100%" stop-color="#ca8a04" />
+                  </radialGradient>
+                </defs>
+                <ellipse cx="140" cy="168" rx="100" ry="14" fill="rgba(0,0,0,0.3)" />
+                <!-- Buah Lemon bergoyang -->
+                <g class="a-rock vb" style="--a:5deg; --d:1.4s; transform-origin:115px 150px">
+                  <circle cx="42" cy="95" r="8" fill="#eab308" />
+                  <circle cx="188" cy="95" r="8" fill="#eab308" />
+                  <path d="M 46 95 Q 56 40 115 40 Q 174 40 184 95 Q 174 150 115 150 Q 56 150 46 95 Z" fill="url(#gLemon)" stroke="#ca8a04" stroke-width="2" />
+                  <path d="M 115 40 Q 125 15 150 18 Q 140 40 115 40 Z" fill="#22c55e" stroke="#15803d" stroke-width="2" />
+                  <ellipse cx="90" cy="72" rx="16" ry="7" fill="#ffffff" opacity="0.5" transform="rotate(-20 90 72)" />
+                </g>
+                <!-- Irisan Lemon berputar -->
+                <g class="a-spin" style="--d:10s">
+                  <circle cx="215" cy="135" r="32" fill="#fde047" stroke="#eab308" stroke-width="4" />
+                  <circle cx="215" cy="135" r="25" fill="#fef9c3" />
+                  <path d="M 215 112 L 215 158 M 192 135 L 238 135 M 199 119 L 231 151 M 231 119 L 199 151" stroke="#fde047" stroke-width="3" />
+                </g>
+                ${spark(230, 50, 1, 0)}
+                ${spark(30, 150, 0.7, 0.8)}
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 21,
+        name: "DELILA",
+        formula: "DELIMA (M ➔ L) = DELILA",
+        story: "Perempuan dari lembah Sorek yang dibujuk raja-raja kota Filistin untuk mencari tahu rahasia kekuatan Simson. Rambut Simson dicukur ketika ia tidur, sehingga kekuatannya hilang.",
+        verse: "Hakim-hakim 16:4-6, 19",
+        hint: "Kisah: Perempuan yang terus membujuk Simson sampai ia membuka rahasia kekuatannya.",
+        cards: [
+          {
+            badgeHtml: `${del("M")} ${TO} ${add("L")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="gDelima" cx="40%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#fda4af" />
+                    <stop offset="40%" stop-color="#e11d48" />
+                    <stop offset="100%" stop-color="#881337" />
+                  </radialGradient>
+                </defs>
+                <ellipse class="a-hopshadow" style="--d:1.8s" cx="115" cy="168" rx="65" ry="12" fill="rgba(0,0,0,0.3)" />
+                <ellipse cx="218" cy="170" rx="40" ry="8" fill="rgba(0,0,0,0.3)" />
+                <!-- Buah Delima utuh (melompat) -->
+                <g class="a-hop vb" style="--d:1.8s; transform-origin:115px 163px">
+                  <polygon points="98,52 100,30 108,44 115,26 122,44 130,30 132,52" fill="#9f1239" stroke="#881337" stroke-width="2" stroke-linejoin="round" />
+                  <circle cx="115" cy="105" r="58" fill="url(#gDelima)" stroke="#881337" stroke-width="2" />
+                  <ellipse cx="92" cy="82" rx="14" ry="7" fill="#ffffff" opacity="0.4" transform="rotate(-30 92 82)" />
+                </g>
+                <!-- Delima terbelah, biji berkilau -->
+                <circle cx="218" cy="132" r="40" fill="#fecdd3" stroke="#be123c" stroke-width="6" />
+                <g fill="#e11d48">
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s" cx="205" cy="118" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.2s" cx="220" cy="114" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.4s" cx="234" cy="122" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.1s" cx="200" cy="133" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.3s" cx="215" cy="130" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.5s" cx="230" cy="137" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.25s" cx="207" cy="147" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.45s" cx="222" cy="150" r="6" />
+                  <circle class="a-pulse" style="--s:1.25; --d:0.6s; animation-delay:0.15s" cx="237" cy="150" r="5" />
+                </g>
+                ${spark(250, 90, 0.8, 0.3)}
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 22,
+        name: "LEA",
+        formula: "LEBAH (B ✕, H ✕) = LEA",
+        story: "Anak sulung Laban dan kakak Rahel. Laban menipu Yakub sehingga Yakub menikahi Lea lebih dulu. Lea menjadi ibu dari Yehuda, nenek moyang Raja Daud.",
+        verse: "Kejadian 29:16-25, 35",
+        hint: "Kisah: Kakak Rahel yang dinikahkan Laban kepada Yakub dengan cara menipu.",
+        cards: [
+          {
+            badgeHtml: `${del("B")} ${X} ${DOT} ${del("H")} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <clipPath id="clipLebah">
+                    <ellipse cx="150" cy="110" rx="62" ry="42" />
+                  </clipPath>
+                </defs>
+                <ellipse class="a-shadow" style="--d:1.3s" cx="145" cy="180" rx="80" ry="10" fill="rgba(0,0,0,0.3)" />
+                <!-- Jejak terbang -->
+                <path d="M 236 112 Q 262 140 250 165 Q 238 185 268 192" stroke="#fde68a" stroke-width="2.5" stroke-dasharray="4 7" fill="none" opacity="0.6" />
+                <!-- Lebah terbang ke sana kemari -->
+                <g class="a-buzz" style="--d:2.6s">
+                  <!-- Sayap bergetar cepat -->
+                  <g class="a-flutter ob" style="--d:0.07s">
+                    <ellipse cx="135" cy="58" rx="26" ry="38" fill="#e0f2fe" opacity="0.75" stroke="#7dd3fc" stroke-width="2" transform="rotate(-25 135 58)" />
+                  </g>
+                  <g class="a-flutter ob" style="--d:0.07s; animation-delay:0.035s">
+                    <ellipse cx="172" cy="60" rx="22" ry="32" fill="#e0f2fe" opacity="0.75" stroke="#7dd3fc" stroke-width="2" transform="rotate(20 172 60)" />
+                  </g>
+                  <polygon points="208,104 236,112 208,120" fill="#3f3f46" stroke="#facc15" stroke-width="2" stroke-linejoin="round" />
+                  <ellipse cx="150" cy="110" rx="62" ry="42" fill="#facc15" stroke="#ca8a04" stroke-width="2" />
+                  <g clip-path="url(#clipLebah)">
+                    <rect x="128" y="60" width="16" height="100" fill="#1e293b" />
+                    <rect x="162" y="60" width="16" height="100" fill="#1e293b" />
+                    <rect x="196" y="60" width="16" height="100" fill="#1e293b" />
+                  </g>
+                  <circle cx="84" cy="108" r="28" fill="#3f3f46" stroke="#facc15" stroke-width="3" />
+                  <g class="a-blink" style="--d:3s">
+                    <circle cx="74" cy="100" r="8" fill="#ffffff" />
+                    <circle cx="72" cy="100" r="4" fill="#0f172a" />
+                  </g>
+                  <path d="M 70 118 Q 78 124 86 118" stroke="#facc15" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                  <g class="a-rock vb" style="--a:8deg; --d:0.6s; transform-origin:86px 82px">
+                    <path d="M 80 82 Q 70 55 55 52 M 92 82 Q 95 55 108 48" stroke="#fde047" stroke-width="3" fill="none" stroke-linecap="round" />
+                    <circle cx="55" cy="52" r="5" fill="#fde047" />
+                    <circle cx="108" cy="48" r="5" fill="#fde047" />
+                  </g>
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 23,
+        name: "HAMAN",
+        formula: "TAMAN (T ➔ H) = HAMAN",
+        story: "Pembesar jahat Raja Ahasyweros yang sangat marah karena Mordekhai tidak mau sujud kepadanya. Ia merencanakan untuk membinasakan semua orang Yahudi, tetapi rencananya digagalkan oleh Ratu Ester.",
+        verse: "Ester 3:5-6; 7:6, 10",
+        hint: "Kisah: Pembesar jahat yang ingin membinasakan orang Yahudi, tetapi digagalkan oleh Ratu Ester.",
+        cards: [
+          {
+            badgeHtml: `${del("T")} ${TO} ${add("H")}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Matahari bersinar -->
+                <g class="a-spin" style="--d:12s">
+                  <path d="M 262 35 L 270 35 M 255.6 50.6 L 261.2 56.2 M 240 57 L 240 65 M 224.4 50.6 L 218.8 56.2 M 218 35 L 210 35 M 224.4 19.4 L 218.8 13.8 M 240 13 L 240 5 M 255.6 19.4 L 261.2 13.8" stroke="#facc15" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <circle class="a-pulse" style="--s:1.12; --d:1.2s" cx="240" cy="35" r="16" fill="#facc15" />
+                <!-- Awan berarak -->
+                <g class="a-driftx" style="--d:8s">
+                  <circle cx="130" cy="34" r="12" fill="#e2e8f0" opacity="0.85" />
+                  <circle cx="146" cy="27" r="15" fill="#e2e8f0" opacity="0.85" />
+                  <circle cx="163" cy="34" r="12" fill="#e2e8f0" opacity="0.85" />
+                  <rect x="130" y="34" width="33" height="12" fill="#e2e8f0" opacity="0.85" />
+                </g>
+                <!-- Rumput -->
+                <ellipse cx="140" cy="165" rx="132" ry="26" fill="#15803d" />
+                <path d="M 120 190 Q 135 165 160 150 L 180 150 Q 160 168 150 190 Z" fill="#d6d3d1" opacity="0.8" />
+                <!-- Pohon bergoyang -->
+                <g class="a-rock vb" style="--a:2.5deg; --d:2s; transform-origin:58px 160px">
+                  <rect x="50" y="95" width="16" height="65" rx="3" fill="#78350f" />
+                  <circle cx="58" cy="70" r="34" fill="#16a34a" />
+                  <circle cx="35" cy="88" r="22" fill="#22c55e" />
+                  <circle cx="82" cy="86" r="22" fill="#15803d" />
+                  <circle cx="45" cy="62" r="4" fill="#ef4444" />
+                  <circle cx="72" cy="78" r="4" fill="#ef4444" />
+                </g>
+                <!-- Bangku taman -->
+                <rect x="160" y="95" width="90" height="8" rx="2" fill="#b45309" />
+                <rect x="160" y="108" width="90" height="8" rx="2" fill="#b45309" />
+                <rect x="155" y="125" width="100" height="10" rx="2" fill="#d97706" />
+                <path d="M 165 103 L 165 150 M 245 103 L 245 150" stroke="#1e293b" stroke-width="5" stroke-linecap="round" />
+                <!-- Bunga bergoyang -->
+                <g class="a-rock ob" style="--a:10deg; --d:1.2s">
+                  <line x1="105" y1="160" x2="105" y2="140" stroke="#22c55e" stroke-width="3" />
+                  <circle cx="105" cy="136" r="7" fill="#f472b6" /><circle cx="105" cy="136" r="3" fill="#facc15" />
+                </g>
+                <g class="a-rock ob" style="--a:10deg; --d:1.2s; animation-delay:0.4s">
+                  <line x1="125" y1="168" x2="125" y2="148" stroke="#22c55e" stroke-width="3" />
+                  <circle cx="125" cy="144" r="7" fill="#facc15" /><circle cx="125" cy="144" r="3" fill="#f97316" />
+                </g>
+                <g class="a-rock ob" style="--a:10deg; --d:1.2s; animation-delay:0.8s">
+                  <line x1="22" y1="168" x2="22" y2="150" stroke="#22c55e" stroke-width="3" />
+                  <circle cx="22" cy="146" r="7" fill="#a78bfa" /><circle cx="22" cy="146" r="3" fill="#facc15" />
+                </g>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        id: 24,
+        name: "PAULUS",
+        formula: "(PAUS - S) + (BULU - BU) + S = PAULUS",
+        story: "Dahulu bernama Saulus dan menganiaya jemaat. Di jalan ke Damsyik ia dikelilingi cahaya dari langit dan bertemu Yesus. Ia lalu menjadi rasul bagi bangsa-bangsa lain dan menulis banyak surat dalam Perjanjian Baru.",
+        verse: "Kisah Para Rasul 9:3-6; 13:9",
+        hint: "Kisah: Penganiaya jemaat yang bertemu Yesus dalam cahaya terang di jalan ke Damsyik, lalu menjadi rasul besar.",
+        cards: [
+          {
+            badgeHtml: `${del("S")} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gPaus" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#3b82f6" />
+                    <stop offset="100%" stop-color="#1e3a8a" />
+                  </linearGradient>
+                </defs>
+                <ellipse class="a-shadow" style="--d:2s" cx="120" cy="158" rx="80" ry="12" fill="rgba(0,0,0,0.3)" />
+                <g class="a-bob" style="--d:2s; --y:-8px">
+                  <!-- Semburan air -->
+                  <g class="a-spout vb" style="--d:1s; transform-origin:80px 58px">
+                    <path d="M 80 58 Q 70 30 55 28 M 80 58 Q 80 25 80 18 M 80 58 Q 90 30 105 28" stroke="#7dd3fc" stroke-width="4" fill="none" stroke-linecap="round" />
+                    <circle cx="55" cy="26" r="4" fill="#7dd3fc" />
+                    <circle cx="105" cy="26" r="4" fill="#7dd3fc" />
+                  </g>
+                  <!-- Ikan Paus -->
+                  <path d="M 25 105 C 25 55, 150 50, 180 95 L 220 65 L 208 105 L 220 140 L 180 118 C 150 150, 25 150, 25 105 Z" fill="url(#gPaus)" stroke="#1e40af" stroke-width="2" />
+                  <path d="M 30 115 C 60 140, 140 140, 172 116" fill="#bfdbfe" opacity="0.8" />
+                  <g class="a-blink" style="--d:3.5s">
+                    <circle cx="58" cy="95" r="6" fill="#ffffff" />
+                    <circle cx="59" cy="96" r="3" fill="#0f172a" />
+                  </g>
+                  <path d="M 30 112 Q 45 118 58 112" stroke="#1e3a8a" stroke-width="2" fill="none" />
+                </g>
+              </svg>
+            `
+          },
+          {
+            operator: "+"
+          },
+          {
+            badgeHtml: `${del("BU")} ${X}`,
+            svg: `
+              <svg width="100%" height="100%" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <ellipse class="a-shadow" style="--d:1.5s" cx="100" cy="160" rx="50" ry="10" fill="rgba(0,0,0,0.3)" />
+                <!-- Bulu melayang -->
+                <g class="a-drift" style="--d:3s">
+                  <path d="M 150 18 C 185 60, 135 125, 70 142 C 72 98, 105 48, 150 18 Z" fill="#a78bfa" stroke="#7c3aed" stroke-width="2" />
+                  <path d="M 50 165 L 150 18" stroke="#f5f3ff" stroke-width="4" stroke-linecap="round" />
+                  <path d="M 120 62 L 150 70 M 108 80 L 140 92 M 96 98 L 126 112 M 120 62 L 102 52 M 108 80 L 88 74 M 96 98 L 80 98" stroke="#7c3aed" stroke-width="2" />
+                </g>
+                ${spark(40, 40, 0.8, 0.4)}
+              </svg>
+            `
+          },
+          {
+            operator: "+"
+          },
+          {
+            letter: "S"
           }
         ]
       }
@@ -1643,16 +2311,11 @@
     let timerInterval = null;
     let isTimerRunning = false;
 
-    // Scores
-    let teamScores = [0, 0, 0];
-    let teamNames = ["Regu 1", "Regu 2", "Regu 3"];
-
     /* ==========================================================
        DOM ELEMENTS
        ========================================================== */
     const questionNav = document.getElementById("question-nav");
     const levelBadge = document.getElementById("level-badge");
-    const levelTitle = document.getElementById("level-title");
     const puzzleStage = document.getElementById("puzzle-stage");
     const letterSlots = document.getElementById("letter-slots");
     const letterCountLabel = document.getElementById("letter-count-label");
@@ -1661,8 +2324,10 @@
     const hintPlaceholder = document.getElementById("hint-placeholder");
     const hintText = document.getElementById("hint-text");
 
+    const sideCol = document.getElementById("side-col");
     const answerContainer = document.getElementById("answer-container");
     const answerName = document.getElementById("answer-name");
+    const answerFormula = document.getElementById("answer-formula");
     const answerStory = document.getElementById("answer-story");
     const answerVerse = document.getElementById("answer-verse");
 
@@ -1703,9 +2368,10 @@
 
       // Update Header (GENERIC - NO SPOILER!)
       levelBadge.innerText = `SOAL #${q.id} DARI ${QUESTIONS.length}`;
-      levelTitle.innerText = "Siapakah Tokoh Ini?";
 
       // Render Visual Cards (NO SPOILER TEXT!)
+      const pictureCount = q.cards.filter(card => !card.operator).length;
+      puzzleStage.className = `puzzle-stage cards-${pictureCount}`;
       puzzleStage.innerHTML = "";
       q.cards.forEach(card => {
         if (card.operator) {
@@ -1716,23 +2382,26 @@
         } else {
           const cardEl = document.createElement("div");
           cardEl.className = "puzzle-card";
-          
-          let badgeEl = "";
-          if (card.badgeHtml) {
-            badgeEl = `<div class="modifier-badge">${card.badgeHtml}</div>`;
-          }
+
+          const svg = card.letter ? letterSvg(card.letter) : card.svg;
+          const badgeEl = card.badgeHtml ? `<div class="modifier-badge">${card.badgeHtml}</div>` : "";
 
           cardEl.innerHTML = `
             <div class="puzzle-svg-wrap">
-              ${card.svg}
+              ${svg}
             </div>
             ${badgeEl}
           `;
+
+          // Rasio lebar:tinggi dari viewBox, agar semua kartu setinggi sama
+          const viewBox = cardEl.querySelector("svg").viewBox.baseVal;
+          cardEl.style.setProperty("--ar", (viewBox.width / viewBox.height).toFixed(3));
+
           puzzleStage.appendChild(cardEl);
         }
       });
 
-      // Render Target Letter Boxes (e.g. 5 boxes for LABAN)
+      // Render Target Letter Boxes (e.g. 4 boxes for ELIA)
       renderLetterBoxes(q.name, solvedStatus[currentIndex]);
 
       // Reset Hint & Answer state
@@ -1743,18 +2412,20 @@
       hintText.style.display = "none";
       hintText.innerText = q.hint;
       hintContainer.classList.remove("visible");
-      btnToggleHint.innerHTML = "💡 Buka Clue Alkitab";
+      btnToggleHint.innerHTML = "💡 Buka Clue";
 
       answerName.innerText = q.name;
-      answerStory.innerHTML = `<b>Rumus:</b> ${q.formula}<br>${q.story}`;
+      answerFormula.innerText = q.formula;
+      answerStory.innerText = q.story;
       answerVerse.innerText = q.verse;
 
+      sideCol.classList.toggle("answered", isAnswerRevealed);
       if (isAnswerRevealed) {
         answerContainer.classList.add("revealed");
-        btnRevealAnswer.innerHTML = "🔒 Sembunyikan";
+        btnRevealAnswer.innerHTML = "🔒 Tutup Jawaban";
       } else {
         answerContainer.classList.remove("revealed");
-        btnRevealAnswer.innerHTML = "✨ Buka Jawaban!";
+        btnRevealAnswer.innerHTML = "✨ Buka Jawaban";
       }
 
       resetTimer();
@@ -1763,10 +2434,11 @@
     function renderLetterBoxes(name, isRevealed) {
       letterSlots.innerHTML = "";
       const letters = name.split("");
-      letters.forEach(char => {
+      letters.forEach((char, i) => {
         const box = document.createElement("div");
         box.className = `letter-box ${isRevealed ? 'revealed' : ''}`;
         box.innerText = isRevealed ? char : "?";
+        box.style.animationDelay = `${i * 0.08}s`;
         letterSlots.appendChild(box);
       });
       letterCountLabel.innerText = `${letters.length} HURUF`;
@@ -1786,13 +2458,13 @@
         hintPlaceholder.style.display = "none";
         hintText.style.display = "block";
         hintContainer.classList.add("visible");
-        btnToggleHint.innerHTML = "💡 Sembunyikan Clue";
+        btnToggleHint.innerHTML = "💡 Tutup Clue";
       } else {
         playClick();
         hintPlaceholder.style.display = "block";
         hintText.style.display = "none";
         hintContainer.classList.remove("visible");
-        btnToggleHint.innerHTML = "💡 Buka Clue Alkitab";
+        btnToggleHint.innerHTML = "💡 Buka Clue";
       }
     };
 
@@ -1800,11 +2472,13 @@
     btnRevealAnswer.onclick = () => {
       const q = QUESTIONS[currentIndex];
       isAnswerRevealed = !isAnswerRevealed;
+      sideCol.classList.toggle("answered", isAnswerRevealed);
       if (isAnswerRevealed) {
         solvedStatus[currentIndex] = true;
         renderLetterBoxes(q.name, true);
         answerContainer.classList.add("revealed");
-        btnRevealAnswer.innerHTML = "🔒 Sembunyikan";
+        puzzleStage.classList.add("celebrate");
+        btnRevealAnswer.innerHTML = "🔒 Tutup Jawaban";
         playSuccessChime();
         launchConfetti();
         stopTimer();
@@ -1813,7 +2487,8 @@
         playClick();
         renderLetterBoxes(q.name, false);
         answerContainer.classList.remove("revealed");
-        btnRevealAnswer.innerHTML = "✨ Buka Jawaban!";
+        puzzleStage.classList.remove("celebrate");
+        btnRevealAnswer.innerHTML = "✨ Buka Jawaban";
       }
     };
 
@@ -1887,23 +2562,6 @@
     };
 
     btnTimerReset.onclick = resetTimer;
-
-    /* ==========================================================
-       SCOREBOARD
-       ========================================================== */
-    function modifyScore(teamIdx, delta) {
-      playClick();
-      teamScores[teamIdx] = Math.max(0, teamScores[teamIdx] + delta);
-      document.getElementById(`score-team-${teamIdx}`).innerText = teamScores[teamIdx];
-    }
-
-    function renameTeam(teamIdx) {
-      const newName = prompt(`Ubah nama Regu ${teamIdx + 1}:`, teamNames[teamIdx]);
-      if (newName && newName.trim() !== "") {
-        teamNames[teamIdx] = newName.trim();
-        document.querySelectorAll(".team-name")[teamIdx].innerText = newName.trim();
-      }
-    }
 
     /* ==========================================================
        HEADER ACTIONS
