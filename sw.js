@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tebak-alkitab-v3';
+const CACHE_NAME = 'tebak-alkitab-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

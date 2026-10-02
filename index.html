@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tebak Tokoh Alkitab - Rebus Puzzle Kelas 6</title>
+  <title>Tebak Tokoh Alkitab - Rebus Puzzle Sabbath School</title>
 
   <!-- PWA & Mobile Web App Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -73,6 +73,7 @@
       padding: 6px 14px;
       border-radius: 9999px;
       letter-spacing: 1px;
+      white-space: nowrap;
       box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
     }
 
@@ -990,6 +991,23 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .logo-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        min-width: 0;
+      }
+      .logo-badge {
+        font-size: 0.7rem;
+        padding: 3px 9px;
+      }
+      .header-actions {
+        gap: 6px;
+        flex: none;
+      }
+    }
+
     @media (max-width: 480px) {
       .app-title {
         font-size: 0.9rem;
@@ -1011,7 +1029,7 @@
   <!-- Top Header -->
   <header>
     <div class="logo-area">
-      <div class="logo-badge">GRADE 6</div>
+      <div class="logo-badge">SABBATH SCHOOL</div>
       <h1 class="app-title">TEBAK TOKOH ALKITAB &bull; REBUS PUZZLE</h1>
     </div>
 

@@ -1,7 +1,7 @@
 {
   "name": "Tebak Tokoh Alkitab",
   "short_name": "Tebak Alkitab",
-  "description": "Game Rebus Puzzle Tebak Tokoh Alkitab untuk Kelas 6 SD",
+  "description": "Game Rebus Puzzle Tebak Tokoh Alkitab untuk Sabbath School",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
