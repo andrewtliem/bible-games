@@ -1,11 +1,14 @@
-const CACHE_NAME = 'tebak-alkitab-v5';
+const CACHE_NAME = 'tebak-alkitab-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './js/helpers.js',
+  './data/level1.js',
+  './data/level2.js'
 ];
 
 self.addEventListener('install', (e) => {
