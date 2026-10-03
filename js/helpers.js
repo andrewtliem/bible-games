@@ -33,7 +33,7 @@ function letterSvg(ch) {
       <ellipse class="a-shadow" style="--d:1.4s" cx="70" cy="152" rx="40" ry="10" fill="rgba(0,0,0,0.3)" />
       <g class="a-bob" style="--d:1.4s; --y:-10px">
         <circle cx="70" cy="82" r="48" fill="#0f172a" stroke="#fbbf24" stroke-width="6" />
-        <text x="70" y="102" text-anchor="middle" fill="#fbbf24" font-size="58" font-weight="900" font-family="system-ui, sans-serif">${ch}</text>
+        <text x="70" y="${ch.length > 1 ? 99 : 102}" text-anchor="middle" fill="#fbbf24" font-size="${ch.length > 1 ? 44 : 58}" font-weight="900" font-family="system-ui, sans-serif">${ch}</text>
       </g>
       ${spark(112, 40, 0.9, 0)}
       ${spark(28, 130, 0.6, 0.7)}

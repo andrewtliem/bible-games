@@ -156,8 +156,8 @@
       background: transparent;
       color: var(--text-muted);
       font-weight: 800;
-      font-size: 0.95rem;
-      padding: 7px 14px;
+      font-size: 0.9rem;
+      padding: 7px 11px;
       border-radius: 50px;
       cursor: pointer;
       white-space: nowrap;
@@ -176,7 +176,7 @@
     }
 
     .nav-pill {
-      width: 30px;
+      width: 28px;
       height: 32px;
       border-radius: 9px;
       background: var(--card-bg);
@@ -189,6 +189,19 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s;
+    }
+
+    .question-nav.many {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding: 4px 4px 6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+
+    .question-nav.many .nav-pill {
+      flex: none;
     }
 
     .nav-pill:hover {
@@ -441,6 +454,35 @@
     .cards-3 .modifier-badge {
       font-size: clamp(1.6rem, 4.2vh, 2.6rem);
       padding: 4px 14px;
+    }
+
+    .cards-4 {
+      flex-wrap: wrap;
+      align-content: center;
+      gap: 8px 14px;
+    }
+
+    .row-break {
+      flex-basis: 100%;
+      height: 0;
+    }
+
+    .cards-4 .puzzle-card {
+      flex: 0 0 auto;
+      width: calc((var(--ph1) * 0.36) * var(--ar, 1.4) + 24px);
+      max-width: 44%;
+      padding: 10px 12px 10px;
+    }
+
+    .cards-4 .modifier-badge {
+      font-size: clamp(1.3rem, 3.4vh, 2.1rem);
+      padding: 2px 10px;
+      letter-spacing: 1px;
+      gap: 5px;
+    }
+
+    .cards-4 .puzzle-operator {
+      font-size: 2.4rem;
     }
 
     .b-del { color: #f43f5e; text-decoration: line-through; text-decoration-thickness: 0.12em; }
@@ -958,6 +1000,10 @@
         gap: 10px;
       }
       .question-nav {
+        align-self: stretch;
+        min-width: 0;
+      }
+      .question-nav {
         justify-content: center;
       }
       .level-btn {
@@ -976,7 +1022,7 @@
         font-size: 1.4rem;
       }
       .game-arena {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 14px;
         padding: 14px 12px;
         border-radius: 18px;
@@ -1024,6 +1070,19 @@
         font-size: 1.7rem;
         padding: 2px 14px;
         border-width: 2px;
+      }
+      .cards-4 .puzzle-card {
+        flex: 0 1 42%;
+        min-width: 0;
+      }
+      .cards-4 .modifier-badge {
+        font-size: 1.1rem;
+        padding: 2px 8px;
+        letter-spacing: 0;
+        gap: 3px;
+      }
+      .cards-4 .puzzle-operator {
+        font-size: 1.6rem;
       }
       .puzzle-operator {
         font-size: 2rem;
@@ -1106,8 +1165,9 @@
     <!-- HUD: Nomor Soal & Timer -->
     <div class="hud-bar">
       <div class="level-switch" id="level-switch">
-        <button class="level-btn active" data-level="0" title="Level 1: satu gambar per soal (L)">⭐ Level 1</button>
-        <button class="level-btn" data-level="1" title="Level 2: dua-tiga gambar per soal (L)">⭐⭐ Level 2</button>
+        <button class="level-btn active" data-level="0" title="Level 1: satu gambar per soal (L)">Level 1</button>
+        <button class="level-btn" data-level="1" title="Level 2: dua-tiga gambar per soal (L)">Level 2</button>
+        <button class="level-btn" data-level="2" title="Level 3: 100 soal, operasi huruf ganda (L)">Level 3</button>
       </div>
 
       <div class="question-nav" id="question-nav"></div>
@@ -1205,7 +1265,7 @@
           <span class="key-badge">R</span>
         </div>
         <div class="shortcut-item">
-          <span>Ganti Level 1 / Level 2</span>
+          <span>Ganti Level 1 / 2 / 3</span>
           <span class="key-badge">L</span>
         </div>
         <div class="shortcut-item">
@@ -1222,6 +1282,8 @@
   <script src="js/helpers.js"></script>
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
+  <script src="data/art3.js"></script>
+  <script src="data/level3.js"></script>
   <script>
     /* ==========================================================
        WEB AUDIO SYNTHESIZER
@@ -1294,7 +1356,7 @@
     /* ==========================================================
        GAME STATE
        ========================================================== */
-    const LEVELS = [LEVEL1, LEVEL2];
+    const LEVELS = [LEVEL1, LEVEL2, LEVEL3];
 
     // Progres disimpan per level, jadi pindah level tidak menghapus yang sudah dibuka
     const levelProgress = LEVELS.map(questions => ({
@@ -1347,6 +1409,7 @@
     // Init Question Navigator
     function initNav() {
       questionNav.innerHTML = "";
+      questionNav.classList.toggle("many", QUESTIONS.length > 30);
       QUESTIONS.forEach((q, idx) => {
         const pill = document.createElement("button");
         pill.className = `nav-pill ${idx === currentIndex ? 'active' : ''}`;
@@ -1369,6 +1432,12 @@
         pill.classList.toggle("active", idx === currentIndex);
         pill.classList.toggle("solved", solvedStatus[idx]);
       });
+      const activePill = questionNav.children[currentIndex];
+      if (activePill && questionNav.classList.contains("many")) {
+        const navBox = questionNav.getBoundingClientRect();
+        const pillBox = activePill.getBoundingClientRect();
+        questionNav.scrollLeft += (pillBox.left + pillBox.width / 2) - (navBox.left + navBox.width / 2);
+      }
 
       // Update Header (GENERIC - NO SPOILER!)
       levelBadge.innerText = `LEVEL ${currentLevel + 1} • SOAL #${q.id} DARI ${QUESTIONS.length}`;
@@ -1383,6 +1452,12 @@
           op.className = "puzzle-operator";
           op.innerText = card.operator;
           puzzleStage.appendChild(op);
+          // 4 gambar: susun 2 baris supaya gambarnya lebih besar
+          if (pictureCount === 4 && puzzleStage.querySelectorAll(".puzzle-card").length === 2) {
+            const rowBreak = document.createElement("div");
+            rowBreak.className = "row-break";
+            puzzleStage.appendChild(rowBreak);
+          }
         } else {
           const cardEl = document.createElement("div");
           cardEl.className = "puzzle-card";
